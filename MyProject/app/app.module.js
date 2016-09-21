@@ -1,18 +1,15 @@
 'use strict';
 
-var app = angular.module('calendarApp', [
+var app = angular.module('calendarApp', ['DayView']);
 
-]);
+app.controller('TabController', function(){
+    this.tab = 1;
 
-app.controller('FirstController', function FirstController($scope) {
-	var times = [];
-	var nulls = ":00";
-	for(var i = 0; i<24; i++){
-		times.push(i);
-		times[i] = i + nulls;
-	}
-	
-	 
- 
-  $scope.times = times;
-});
+    this.setTab = function(newValue){
+      this.tab = newValue;
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
+  });

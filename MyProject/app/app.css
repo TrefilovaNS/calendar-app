@@ -1,9 +1,26 @@
 body {
   padding-top: 20px;
   padding-left: 30px;
+  padding-bottom: 20px; 
 }
 
 table{
  width: 60%;
- border: solid 1px;
+ border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid black;
+}
+td:nth-child(n) {
+    text-align: center;
+}
+.day td:nth-child(2n+0) {
+    width: 90%;
+}
+th{
+	text-align: center;
+}
+td{
+	 width: 10%;
+	 height: 30px;
 }
