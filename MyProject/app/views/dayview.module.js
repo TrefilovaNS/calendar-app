@@ -11,8 +11,8 @@ app.controller('DayController', function DayController($scope) {
 		times.push(i);
 		times[i] = i + nulls;
 	}
-	
-	 
+
+ 
  
   $scope.times = times;
 });
