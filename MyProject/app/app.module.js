@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['DayView']);
+var app = angular.module('calendarApp', ['DayView', 'MonthView']);
 
 app.controller('TabController', function(){
     this.tab = 1;

@@ -24,3 +24,17 @@ td{
 	 width: 10%;
 	 height: 30px;
 }
+
+.month th {
+    height: 20px;
+}
+
+.month td {
+	height: 80px;
+	text-align: left;
+	vertical-align: top;
+}
+
+.week tr{
+	width: 120px;
+}
