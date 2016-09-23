@@ -35,6 +35,7 @@ td{
 	vertical-align: top;
 }
 
-.week tr{
-	width: 120px;
+.week tr td{
+	height: 50px;
+	min-width: 80px;
 }
