@@ -142,7 +142,7 @@ td{
   border: none;
   font-size: 20px;
 }
-
+button:focus { outline:0 !important; }
 .flex-calendar .days {
   background-color: #FFF0E3;
 }

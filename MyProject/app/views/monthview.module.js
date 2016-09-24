@@ -82,7 +82,6 @@ app.controller('MonthController', function MonthController($scope) {
         $scope.options.eventClick(date, domEvent);
       }
       
-      $scope.options.dateClick(date, domEvent);
     }
 
     function bindEvent(date) {
@@ -160,9 +159,10 @@ app.controller('MonthController', function MonthController($scope) {
     }
 
     function resetToToday() {
-      $scope.selectedYear  = $scope.options._defaultDate.getFullYear();
-      $scope.selectedMonth = MONTHS[$scope.options._defaultDate.getMonth()];
-      $scope.selectedDay   = $scope.options._defaultDate.getDate();
+    	$scope.options._defaultDate = new Date();
+      	$scope.selectedYear  = $scope.options._defaultDate.getFullYear();
+      	$scope.selectedMonth = MONTHS[$scope.options._defaultDate.getMonth()];
+      	$scope.selectedDay   = $scope.options._defaultDate.getDate();
     }
 
 	function nextMonth() {
@@ -173,8 +173,7 @@ app.controller('MonthController', function MonthController($scope) {
       } else {
         $scope.selectedMonth = MONTHS[currIndex + 1];
       }
-      var month = {name: $scope.selectedMonth, index: currIndex + 1, _index: currIndex+2 };
-      $scope.options.changeMonth(month, $scope.selectedYear);
+      
     }
 
 
