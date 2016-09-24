@@ -12,4 +12,6 @@ app.controller('TabController', function(){
     this.isSet = function(tabName){
       return this.tab === tabName;
     };
+
+   
   });

@@ -5,46 +5,178 @@ var app = angular.module('MonthView', [
 ]);
 
 app.controller('MonthController', function MonthController($scope) {
-	var days = [];
 	
-	//отобразить все дни месяца
-	var d = new Date();
-	var month = d.getMonth() + 1;
-	 
-	function daysInMonth(month,year) {		
-    	return new Date(year, month, 0).getDate();
-	}
+ 
 
-	var numbDays = daysInMonth(month,2009);
-	
-	for(var i = 0; i<=numbDays; i++){
-		days.push(i);
-		days[i] = i;
-	}
+	$scope.days = [];
+	$scope.events = $scope.events || [];
+	$scope.options = $scope.options || {};
+	$scope.options.defaultDate = new Date ();
+	$scope.onClick = onClick;
+    $scope.weekDays = weekDays;
+    $scope.isDefaultDate = isDefaultDate;
+    $scope.resetToToday = resetToToday;
+    $scope.nextMonth = nextMonth;
 
-	var daysForView = [];
-    for (var i = 0; i < days.length; i++ ) {
-        if (i % 7 == 0) daysForView.push([]);
-        daysForView[daysForView.length-1].push(days[i]);
-    }
-	
-	var months = new Array(12);
-		months[1] = "January";
-		months[2] = "February";
-		months[3] = "March";
-		months[4] = "April";
-		months[5] = "May";
-		months[6] = "June";
-		months[7] = "July";
-		months[8] = "August";
-		months[9] = "September";
-		months[10] = "October";
-		months[11] = "November";
-		months[12] = "December";
-	 
-	 var nameMouth = months[month];
 
  
-  $scope.days = daysForView;
-  $scope.name = nameMouth;
+
+    var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
+
+	if($scope.events)
+    {
+      createMappedEvents();
+    }
+
+    function createMappedEvents(){
+      $scope.mappedEvents = $scope.events.map(function(obj)
+      {
+        obj.date = new Date(obj.date);
+        return obj;
+      });
+    }
+
+    function registerEvents(){
+      
+      $scope.$on(resetToToday);
+      $scope.$on(nextMonth);
+    }
+
+    $scope.$watch('options.defaultDate', function() {
+      calculateSelectedDate();
+    });
+
+  	$scope.$watch('events', function() {
+      createMappedEvents();
+      calculateWeeks();
+    });
+
+    $scope.$watch('weeks', function(weeks) {
+      var filteredEvents = [];
+      angular.forEach(weeks, function(week) {
+        angular.forEach(week, function (day){
+          if(day && day.event){
+            angular.forEach(day.event, function(event) {
+              filteredEvents.push(event);
+            });
+          }
+        });
+      });
+      if('function' === typeof $scope.options.filteredEventsChange){
+        $scope.options.filteredEventsChange(filteredEvents);
+      }
+    });
+
+    $scope.$watch('selectedYear', function(year, previousYear) {
+      if(year !== previousYear) calculateWeeks();
+    });
+    $scope.$watch('selectedMonth', function(month, previousMonth) {
+      if(month !== previousMonth) calculateWeeks();
+    });
+
+    function onClick(date, index, domEvent) {
+      if (!date) { return; }
+      $scope.options.defaultDate = date.date;
+      if (date.event.length && $scope.options.eventClick) {
+        $scope.options.eventClick(date, domEvent);
+      }
+      
+      $scope.options.dateClick(date, domEvent);
+    }
+
+    function bindEvent(date) {
+      if (!date || !$scope.mappedEvents) { return; }
+      date.event = [];
+      $scope.mappedEvents.forEach(function(event) {
+        if (date.date.getFullYear() === event.date.getFullYear()
+            && date.date.getMonth() === event.date.getMonth()
+            && date.date.getDate() === event.date.getDate()) {
+          date.event.push(event);
+        }
+      });
+    }
+
+     function cDate(date) {
+      	var currDate = date.date;
+      	return true;
+    }
+
+    function calculateWeeks() {
+      $scope.weeks = [];
+      var week = null;
+      var daysInCurrentMonth = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth) + 1, 0).getDate();
+
+      for (var day = 1; day < daysInCurrentMonth + 1; day += 1) {
+        var date = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day);
+        var dayNumber = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day).getDay();
+        dayNumber = (dayNumber + 6) % 7;
+        week = week || [null, null, null, null, null, null, null];
+        week[dayNumber] = {
+          year: $scope.selectedYear,
+          month: MONTHS.indexOf($scope.selectedMonth),
+          day: day,
+          date: date,
+          _month : date.getMonth() + 1
+        };
+//week.disabled?
+        if (cDate(week[dayNumber])) {
+          if ($scope.mappedEvents) { bindEvent(week[dayNumber]); }
+        } else {
+          week[dayNumber].disabled = true;
+        }
+
+
+        if (dayNumber === 6 || day === daysInCurrentMonth) {
+          $scope.weeks.push(week);
+          week = undefined;
+        }
+      }
+      
+    }
+
+    function calculateSelectedDate() {
+      if ($scope.options.defaultDate) {
+        $scope.options._defaultDate = new Date($scope.options.defaultDate);
+      } else {
+        $scope.options._defaultDate = new Date();
+      }
+
+      $scope.selectedYear  = $scope.options._defaultDate.getFullYear();
+      $scope.selectedMonth = MONTHS[$scope.options._defaultDate.getMonth()];
+      $scope.selectedDay   = $scope.options._defaultDate.getDate();
+    }
+
+    function weekDays() {
+      return WEEKDAYS.map(function(name) { return name.slice(0, 3); });
+    }
+
+    function isDefaultDate(date) {
+      if (!date) { return; }
+      var result = date.year === $scope.options._defaultDate.getFullYear() &&
+        date.month === $scope.options._defaultDate.getMonth() &&
+        date.day === $scope.options._defaultDate.getDate();
+      return result;
+    }
+
+    function resetToToday() {
+      $scope.selectedYear  = $scope.options._defaultDate.getFullYear();
+      $scope.selectedMonth = MONTHS[$scope.options._defaultDate.getMonth()];
+      $scope.selectedDay   = $scope.options._defaultDate.getDate();
+    }
+
+	function nextMonth() {
+      var currIndex = MONTHS.indexOf($scope.selectedMonth);
+      if (currIndex === 11) {
+        $scope.selectedYear += 1;
+        $scope.selectedMonth = MONTHS[0];
+      } else {
+        $scope.selectedMonth = MONTHS[currIndex + 1];
+      }
+      var month = {name: $scope.selectedMonth, index: currIndex + 1, _index: currIndex+2 };
+      $scope.options.changeMonth(month, $scope.selectedYear);
+    }
+
+
+
 });

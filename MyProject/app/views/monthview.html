@@ -1,21 +1,17 @@
 <div align="center" ng-controller="MonthController">
-   <h2>Month View {{ name }}</h2>
-   <table class="month">
-  <tr>
-   <th>Mon</th>
-   <th>Tue</th>
-   <th>Wed</th>
-   <th>Thu</th>
-   <th>Fri</th>
-    <th>Sat</th>
-    <th>Sun</th></tr>
-
-    <tr ng-repeat="daysTR in days">
-         <td ng-repeat="dayTD in daysTR">
-             {{ dayTD }}
-             <!-- After seven iterations a new `<tr>` should be aded -->
-        </td>
-    </tr>
- 
-   </table>
+   <div class="flex-calendar">
+      <div class="month">
+        <button class="reset" ng-click="resetToToday()">reset</button>
+        <div class="label">{{ selectedMonth }} {{selectedYear}}</div>
+        <div class="arrow" ng-click="nextMonth()"></div>
+      </div>
+      <div class="week">
+        <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
+      </div>
+      <div class="days" ng-repeat="week in weeks">
+        <div class="day" ng-repeat="day in week track by $index" ng-class="[{selected: isDefaultDate(day), event: day.event[0], out: !day}]" ng-click="onClick(day, $index, $event)">
+          <div class="number">{{day.day}}</div>
+        </div>
+      </div>
+    </div>
 </div>
