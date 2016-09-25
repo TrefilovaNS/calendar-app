@@ -40,6 +40,17 @@ td{
 	min-width: 80px;
 }
 
+.left{
+  display: inline;
+  float: left;
+  min-width: 14%;
+}
+
+.right{
+  display: inline;
+  float: right;
+  min-width: 86%;
+}
 /*Flex-styles*/
 .flex-calendar {
   width: 60%;
@@ -176,6 +187,10 @@ button:focus { outline:0 !important; }
           transition: all 0.3s ease;
 }
 
+.flex-calendar .days .day.time{
+  border-top: 1px solid #ffb835;
+}
+
 .flex-calendar .days .day.out {
   background-color: #fCFCFC;
 }
@@ -183,6 +198,10 @@ button:focus { outline:0 !important; }
 .flex-calendar .days .day.today {
   color: #FFB835;
   border: 1px solid;
+}
+
+.flex-calendar .times{
+  display: block;
 }
 
 .flex-calendar .days .day.selected {

@@ -1,14 +1,17 @@
-<div align="center">
-   <h2>Day View</h2>
-   <table ng-controller="DayController" class="day">
-   <tr>
-   <th>Time</th>
-    <th>Events</th></tr>
-   <tr ng-repeat="time in times">
-    <td>{{ time }}
-    </td>
-    <td>
-    </td>
-   </tr>
-   </table>
+<div align="center" ng-controller="DayController">
+   <div class="flex-calendar">
+      <div class="month">
+        <button class="reset" ng-click="resetToToday()">reset</button>
+        <div class="label">{{selectedDay}} {{selectedMonth}} {{selectedYear}}</div>
+        <div class="arrow" ng-click="nextDay()"></div>
+      </div>
+      <div class="days times">
+        <div class="day time" ng-repeat="time in times">
+          <div class="left">{{ time }}</div>
+          <div class="right">{{ event }}</div>
+        </div>
+      </div>
+        
+      </div>
 </div>
+
