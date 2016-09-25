@@ -47,12 +47,101 @@ function calculateSelectedDate() {
  	}
 
  	function resetToToday(){
-
+ 		$scope.options.defaultDate = new Date();
+      	$scope.selectedYear  = $scope.options.defaultDate.getFullYear();
+      	$scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
+      	$scope.selectedDay   = $scope.options.defaultDate.getDate();
  	}
 
  	function nextDay(){
-
+ 		//var daysInCurrentMonth = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth) + 1, 0).getDate();
+ 		var currIndex = MONTHS.indexOf($scope.selectedMonth);
+ 		
+ 		
+ 		var month = currIndex; 
+		var lastDate = new Date($scope.selectedYear, month + 1, 0);
+		var lastDay = lastDate.getDate();
+		
+		if(lastDay == $scope.selectedDay){
+			if (currIndex === 11) {
+        			$scope.selectedYear += 1;
+        			$scope.selectedMonth = MONTHS[0];
+      			} else {
+        			$scope.selectedMonth = MONTHS[currIndex + 1];
+        			$scope.selectedDay = 1;
+      			}
+		}else{
+			$scope.selectedDay += 1;
+		}
+      
  	}
+
+ 	$scope.$watch('selectedDay', function() {
+      calculateTimes();
+    });
+ 		/////////////// // // 
+  //   function cTime(time) {
+      	
+  //     	var currTime = date.time;
+  //     	return true;
+  //   }
+
+
+ 	// function calculateTimes(){
+ 	// 	var date = $scope.options.defaultDate;
+ 	// 	var times = $scope.times;
+ 	// 	var currDate = cDate(date).get
+ 	// 	var getTimes = date.getTimes();
+ 	// 	var format = getTimes.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" )
+ 	// 	console.log(getTimes);
+
+ 	// 	for(var i = 0; i<times.length; i++ ){
+
+ 	// 	}
+
+ 		/////////////// // // 
+//  		var now = new Date;
+// console.log( now.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" ) );
+		
+
+ 	// }
+
+//  	function calculateWeeks() {
+//       $scope.weeks = [];
+//       var week = null;
+//       var daysInCurrentMonth = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth) + 1, 0).getDate();
+
+//       for (var day = 1; day < daysInCurrentMonth + 1; day += 1) {
+//         var date = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day);
+//         var dayNumber = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day).getDay();
+//         dayNumber = (dayNumber + 6) % 7;
+//         week = week || [null, null, null, null, null, null, null];
+//         week[dayNumber] = {
+//           year: $scope.selectedYear,
+//           month: MONTHS.indexOf($scope.selectedMonth),
+//           day: day,
+//           date: date,
+//           _month : date.getMonth() + 1
+//         };
+// //week.disabled?
+//         if (cDate(week[dayNumber])) {
+//           if ($scope.mappedEvents) { bindEvent(week[dayNumber]); }
+//         } else {
+//           week[dayNumber].disabled = true;
+//         }
+
+
+//         if (dayNumber === 6 || day === daysInCurrentMonth) {
+//           $scope.weeks.push(week);
+//           week = undefined;
+//         }
+//       }
+      
+//     }
+
+
+
+    ///////
 //     var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 //     var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
 
