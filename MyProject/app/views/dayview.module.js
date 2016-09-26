@@ -7,50 +7,73 @@ var app = angular.module('DayView', [
 app.controller('DayController', function DayController($scope) {
 
 
-	$scope.times = getTimes();
+  
 	$scope.events = $scope.events || [];
 	$scope.options = $scope.options || {};
 	$scope.onClick = onClick;
-    $scope.options.defaultDate = new Date();
+  $scope.options.defaultDate = new Date();
+  $scope.hoursOfDay = $scope.hoursOfDay || [];
     
-    $scope.resetToToday = resetToToday;
-    $scope.nextDay = nextDay;
-    $scope.event = "Hi";
-    
+  $scope.resetToToday = resetToToday;
+  $scope.nextDay = nextDay;
+  $scope.event = "Hi";
+
+  $scope.events = [
+    {foo: 'bar', date: "2016-09-27 13:40"}, //value of eventClass will be added to CSS class of the day element
+    {foo: 'bar', date: "2016-09-26 21:07"}
+  ];
+  
 
 
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+getTimes();
+if($scope.events)
+    {
+      createMappedEvents();
+    }
 
+    function createMappedEvents(){
+      $scope.mappedEvents = $scope.events.map(function(obj)
+      {
+        obj.date = new Date(obj.date);
+        return obj;
+      });
+    }
+
+    function registerEvents(){
+      
+      $scope.$on(resetToToday);
+      $scope.$on(nextDay);
+    }
 
 $scope.$watch('options.defaultDate', function() {
       calculateSelectedDate();
     });
 
+  $scope.$watch('events', function() {
+      createMappedEvents();
+      calculateTimes();
+    });
 function calculateSelectedDate() {
      
       $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
       $scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
       $scope.selectedDay   = $scope.options.defaultDate.getDate();
+      $scope.selectedHour   = $scope.options.defaultDate.getHours();
+
+      $scope.selectedTime   = $scope.options.defaultDate.getTime();
+
+
     }
 
- function getTimes(){
- 	var times = [];
-	var nulls = ":00";
-	for(var i = 0; i<24; i++){
-		times.push(i);
-		times[i] = i + nulls;
-	}
-	return times;
- }
- 	function onClick(){
 
- 	}
 
  	function resetToToday(){
- 		$scope.options.defaultDate = new Date();
+ 		    $scope.options.defaultDate = new Date();
       	$scope.selectedYear  = $scope.options.defaultDate.getFullYear();
       	$scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
       	$scope.selectedDay   = $scope.options.defaultDate.getDate();
+        $scope.selectedHour   = $scope.options.defaultDate.getHours();
  	}
 
  	function nextDay(){
@@ -76,6 +99,28 @@ function calculateSelectedDate() {
       
  	}
 
+   function onClick(date, domEvent) {
+      if (!date) { return; }
+      $scope.options.defaultDate = date.date;
+      if (date.event.length && $scope.options.eventClick) {
+        $scope.options.eventClick(date, domEvent);
+      }
+      
+    }
+
+  function bindEvent(date) {
+      if (!date || !$scope.mappedEvents) { return; }
+      date.event = [];
+      $scope.mappedEvents.forEach(function(event) {
+        if (date.date.getFullYear() === event.date.getFullYear()
+            && date.date.getMonth() === event.date.getMonth()
+            && date.date.getDate() === event.date.getDate()
+            && date.date.getHours() === event.date.getHours()) {
+          date.event.push(event);
+        }
+      });
+    }
+
  	$scope.$watch('selectedDay', function() {
       calculateTimes();
     });
@@ -87,24 +132,68 @@ function calculateSelectedDate() {
   //   }
 
 
- 	// function calculateTimes(){
- 	// 	var date = $scope.options.defaultDate;
- 	// 	var times = $scope.times;
- 	// 	var currDate = cDate(date).get
- 	// 	var getTimes = date.getTimes();
- 	// 	var format = getTimes.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" )
- 	// 	console.log(getTimes);
+ 	function calculateTimes(){
+      $scope.hoursOfDay = [];
+      
+      
 
- 	// 	for(var i = 0; i<times.length; i++ ){
+    for (var i = 0; i<24; i++ ) {
+          var hour = i;
+          var date = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), $scope.selectedDay, hour);
+          var hoursOfDay = date.getHours();
+          var arrForTimes = [];
+          arrForTimes[hoursOfDay] = {
+            year: $scope.selectedYear,
+            month: MONTHS.indexOf($scope.selectedMonth),
+            day: $scope.selectedDay,
+            date: date,
+            hour: hour,
+            _month : date.getMonth() + 1
+            };
 
- 	// 	}
+         bindEvent(arrForTimes[hoursOfDay]);
+      
+
+
+          $scope.hoursOfDay.push(arrForTimes[hoursOfDay]);
+          arrForTimes = undefined;
+         
+         
+           
+        }
+       
+          
+         $scope.hoursForView = [];
+            
+            var nulls = ":00";
+            for(var i = 0; i<$scope.hoursOfDay.length; i++){
+              $scope.hoursForView.push($scope.hoursOfDay[i].hour);
+              $scope.hoursForView[i] = i + nulls;
+            }
+           
+
+      }
+
+function getTimes(){
+  
+}
+ 		// var times = $scope.times;
+ 		// var currDate = date.date
+ 		// var getTimes = currDate.getTimes();
+ 		// var format = getTimes.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" )
+ 		// console.log(getTimes);
+   //  bindEvent(times[i]);
+
+ 		// for(var i = 0; i<times.length; i++ ){
+   //       ($scope.mappedEvents) { bindEvent(times[i]); }
+ 		// }
 
  		/////////////// // // 
 //  		var now = new Date;
 // console.log( now.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" ) );
 		
 
- 	// }
+ 	
 
 //  	function calculateWeeks() {
 //       $scope.weeks = [];

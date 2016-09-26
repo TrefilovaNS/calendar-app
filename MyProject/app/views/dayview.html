@@ -6,7 +6,7 @@
         <div class="arrow" ng-click="nextDay()"></div>
       </div>
       <div class="days times">
-        <div class="day time" ng-repeat="time in times">
+        <div class="day time" ng-repeat="time in hoursForView" ng-click="onClick(time, $event)">
           <div class="left">{{ time }}</div>
           <div class="right">{{ event }}</div>
         </div>
