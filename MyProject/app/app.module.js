@@ -1,8 +1,8 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['DayView', 'MonthView']);
+var app = angular.module('calendarApp', ['DayView', 'MonthView', 'WeekView']);
 
-app.controller('TabController', function(){
+app.controller('TabController', function($scope){
     this.tab = 1;
 
     this.setTab = function(newValue){
@@ -13,5 +13,10 @@ app.controller('TabController', function(){
       return this.tab === tabName;
     };
 
-   
+   $scope.events = [
+    {foo: 'bar', date: "2016-09-27 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
+    {foo: 'bar', date: "2016-09-26 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
+  ];
+  	
+ 
   });

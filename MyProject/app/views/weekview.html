@@ -1,32 +1,21 @@
-<div align="center">
-   <h2>Week View</h2>
-   <table ng-controller="DayController" class="week">
-   <tr>
-   <th>Time</th>
-   <th>Monday</th>
-   <th>Tuesday</th>
-   <th>Wednesday</th>
-   <th>Thurday</th>
-   <th>Friday</th>
-    <th>Saturday</th>
-    <th>Sunday</th></tr>
-   <tr ng-repeat="time in times">
-    <td>{{ time }}
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-     <td>
-    </td>
-   </tr>
-   </table>
+<div align="center" ng-controller="WeekController">
+   <div class="flex-calendar">
+      <div class="month">
+        <button class="reset" ng-click="resetToToday()">reset</button>
+        <div class="label">{{selectedDay}} {{selectedMonth}} {{selectedYear}}</div>
+        <div class="arrow" ng-click="nextDay()"></div>
+      </div>
+      <div class="week">
+        <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
+      </div>
+      <div class="days times">
+        <div class="day time" ng-repeat="time in hoursOfDay" ng-click="onClick(time, $event)" ng-class="[{selected: isDefaultDate(time), eventTime: time.event[0]}]" >
+          <div class="left">{{ time.hour + ':00' }}</div>
+          <div class="right" ng-show="time.event[0]"><b>{{time.event[0].name}}:</b> {{time.event[0].description}}<br>
+          <b>Start:</b> {{time.event[0].date | date:'HH:mm'}} <b>Duration:</b> {{time.event[0].duration}}</div>
+        </div>
+      </div>
+        
+      </div>
 </div>
+

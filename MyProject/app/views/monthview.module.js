@@ -18,10 +18,7 @@ app.controller('MonthController', function MonthController($scope) {
     $scope.resetToToday = resetToToday;
     $scope.nextMonth = nextMonth;
 
-$scope.events = [
-    {foo: 'bar', date: "2016-09-18"}, //value of eventClass will be added to CSS class of the day element
-    {foo: 'bar', date: "2016-09-20"}
-  ];
+
 
  
 

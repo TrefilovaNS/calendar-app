@@ -18,11 +18,7 @@ app.controller('DayController', function DayController($scope) {
   $scope.resetToToday = resetToToday;
   $scope.nextDay = nextDay;
  
-  $scope.events = [
-    {foo: 'bar', date: "2016-09-27 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
-    {foo: 'bar', date: "2016-09-26 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
-  ];
-  
+ 
 
 
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
