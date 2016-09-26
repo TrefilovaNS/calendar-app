@@ -51,6 +51,12 @@ td{
   float: right;
   min-width: 86%;
 }
+.time.eventTime .right{
+  background-color: #faac1c;
+  padding: 2px;
+  color: #fff;
+  line-height: 30px;
+}
 /*Flex-styles*/
 .flex-calendar {
   width: 60%;
@@ -204,6 +210,7 @@ button:focus { outline:0 !important; }
   display: block;
 }
 
+
 .flex-calendar .days .day.selected {
   display: -webkit-box;
   display: -webkit-flex;
@@ -229,6 +236,7 @@ button:focus { outline:0 !important; }
       -ms-flex-align: center;
           align-items: center;
 }
+
 
 .flex-calendar .days .day.selected .number {
   width: 40px;

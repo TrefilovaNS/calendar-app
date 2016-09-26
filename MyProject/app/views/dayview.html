@@ -6,9 +6,10 @@
         <div class="arrow" ng-click="nextDay()"></div>
       </div>
       <div class="days times">
-        <div class="day time" ng-repeat="time in hoursForView" ng-click="onClick(time, $event)" ng-class="[{selected: isDefaultDate(time), event: day.event[0]}]" >
-          <div class="left">{{ time }}</div>
-          <div class="right" ></div>
+        <div class="day time" ng-repeat="time in hoursOfDay" ng-click="onClick(time, $event)" ng-class="[{selected: isDefaultDate(time), eventTime: time.event[0]}]" >
+          <div class="left">{{ time.hour + ':00' }}</div>
+          <div class="right" ng-show="time.event[0]"><b>{{time.event[0].name}}:</b> {{time.event[0].description}}<br>
+          <b>Start:</b> {{time.event[0].date | date:'HH:mm'}} <b>Duration:</b> {{time.event[0].duration}}</div>
         </div>
       </div>
         

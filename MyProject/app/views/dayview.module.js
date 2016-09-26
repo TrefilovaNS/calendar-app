@@ -19,8 +19,8 @@ app.controller('DayController', function DayController($scope) {
   $scope.nextDay = nextDay;
  
   $scope.events = [
-    {foo: 'bar', date: "2016-09-27 13:40"}, //value of eventClass will be added to CSS class of the day element
-    {foo: 'bar', date: "2016-09-26 21:07"}
+    {foo: 'bar', date: "2016-09-27 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
+    {foo: 'bar', date: "2016-09-26 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   ];
   
 
@@ -150,11 +150,9 @@ function calculateSelectedDate() {
             hour: hour,
             _month : date.getMonth() + 1
             };
-
-         bindEvent(arrForTimes[hoursOfDay]);
-      
-
-
+		if($scope.mappedEvents){
+			bindEvent(arrForTimes[hoursOfDay]);
+		}
           $scope.hoursOfDay.push(arrForTimes[hoursOfDay]);
           arrForTimes = undefined;
          
@@ -162,14 +160,7 @@ function calculateSelectedDate() {
            
         }
        
-          
-         $scope.hoursForView = [];
-            
-            var nulls = ":00";
-            for(var i = 0; i<$scope.hoursOfDay.length; i++){
-              $scope.hoursForView.push($scope.hoursOfDay[i].hour);
-              $scope.hoursForView[i] = i + nulls;
-            }
+       
            
 
       }
