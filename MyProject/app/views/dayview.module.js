@@ -13,11 +13,11 @@ app.controller('DayController', function DayController($scope) {
 	$scope.onClick = onClick;
   $scope.options.defaultDate = new Date();
   $scope.hoursOfDay = $scope.hoursOfDay || [];
+  $scope.isDefaultDate = isDefaultDate;
     
   $scope.resetToToday = resetToToday;
   $scope.nextDay = nextDay;
-  $scope.event = "Hi";
-
+ 
   $scope.events = [
     {foo: 'bar', date: "2016-09-27 13:40"}, //value of eventClass will be added to CSS class of the day element
     {foo: 'bar', date: "2016-09-26 21:07"}
@@ -26,7 +26,7 @@ app.controller('DayController', function DayController($scope) {
 
 
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-getTimes();
+
 if($scope.events)
     {
       createMappedEvents();
@@ -101,11 +101,11 @@ function calculateSelectedDate() {
 
    function onClick(date, domEvent) {
       if (!date) { return; }
-      $scope.options.defaultDate = date.date;
-      if (date.event.length && $scope.options.eventClick) {
-        $scope.options.eventClick(date, domEvent);
-      }
-      
+      // $scope.options.defaultDate = date.date;
+      // if (date.event.length && $scope.options.eventClick) {
+      //   $scope.options.eventClick(date, domEvent);
+      // }
+      console.log(date);
     }
 
   function bindEvent(date) {
@@ -174,10 +174,15 @@ function calculateSelectedDate() {
 
       }
 
-function getTimes(){
-  
-}
- 		// var times = $scope.times;
+  function isDefaultDate(date) {
+      if (!date) { return; }
+      var result = date.year === $scope.options.defaultDate.getFullYear() &&
+        date.month === $scope.options.defaultDate.getMonth() &&
+        date.day === $scope.options.defaultDate.getDate() &&
+        date.hours === $scope.options.defaultDate.getHours();
+      return result;
+   }
+// var times = $scope.times;
  		// var currDate = date.date
  		// var getTimes = currDate.getTimes();
  		// var format = getTimes.customFormat( "#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#" )
