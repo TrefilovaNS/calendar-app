@@ -46,6 +46,9 @@ td{
   min-width: 14%;
 }
 
+.flex-calendar .days .timelime{
+  font-size: 0px;
+}
 .right{
   display: inline;
   float: right;
