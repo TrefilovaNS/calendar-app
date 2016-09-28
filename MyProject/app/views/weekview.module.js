@@ -10,15 +10,23 @@ app.controller('WeekController', function WeekController($scope) {
 		$scope.options.defaultDate = new Date();
 		
 		$scope.nextWeek = nextWeek;
+		$scope.resetToToday = resetToToday;
+		$scope.weekDays = weekDays;
 		
 
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
 
 		
 		
 	$scope.$watch('options.defaultDate', function() {
       calculateSelectedDate();
     });
+
+	$scope.$watch('selectedStartWeek' && 'selectedEndWeek', function() {
+      calculateDaysOfWeek();
+    });
+
 function calculateSelectedDate() {
      
       $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
@@ -28,12 +36,15 @@ function calculateSelectedDate() {
       $scope.selectedStartWeek = moment($scope.options.defaultDate).startOf('week').toDate();
 	  $scope.selectedEndWeek = moment($scope.options.defaultDate).endOf('week').toDate();
 
-	  $scope.nameStartWeek = MONTHS[$scope.selectedStartWeek.getMonth()];
-	$scope.nameEndWeek = MONTHS[$scope.selectedEndWeek.getMonth()];
+	  $scope.nameStartWeek = MONTHS[$scope.selectedStartWeek.getMonth()].slice(0, 3);
+	  $scope.nameEndWeek = MONTHS[$scope.selectedEndWeek.getMonth()].slice(0, 3);
 
       // $scope.selectedTime   = $scope.options.defaultDate.getTime();
 
 
+    }
+     function weekDays() {
+      return WEEKDAYS.map(function(name) { return name.slice(0, 3); });
     }
 	function nextWeek(){
  		
@@ -62,12 +73,39 @@ function calculateSelectedDate() {
  		$scope.selectedStartWeek = moment(newDate).startOf('week').toDate();
 	  	$scope.selectedEndWeek = moment(newDate).endOf('week').toDate();
 
-	  	$scope.nameStartWeek = MONTHS[newDate.getMonth()];
-		$scope.nameEndWeek = MONTHS[newDate.getMonth()];
+	  	$scope.nameStartWeek = MONTHS[$scope.selectedStartWeek.getMonth()].slice(0, 3);
+		$scope.nameEndWeek = MONTHS[$scope.selectedEndWeek.getMonth()].slice(0, 3);
 
 	  	console.log($scope.selectedStartWeek,$scope.selectedEndWeek);
 
  		}
+ 	function resetToToday(){
+ 	    $scope.options.defaultDate = new Date();
+      	$scope.selectedYear  = $scope.options.defaultDate.getFullYear();
+      	$scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
+      	$scope.selectedDay   = $scope.options.defaultDate.getDate();
+        $scope.selectedHour   = $scope.options.defaultDate.getHours();
+ 	}
 
+ 	function calculateDaysOfWeek(){
+      	var daysOfWeek = [];
+      	var startWeek = $scope.selectedStartWeek;
+		var endWeek = $scope.selectedEndWeek;
+
+		for(var i = 0; i<7;i++){
+			var weekday = moment(startWeek).weekday(i).toDate();
+			var date = new Date(weekday.getFullYear(),weekday.getMonth(),weekday.getDate(),0)
+			//daysOfWeek.push(weekday)
+         
+			daysOfWeek[i] = {
+            year: weekday.getFullYear(),
+            month: MONTHS[weekday.getMonth()],
+            day: weekday.getDate(),
+            date: date,
+            _month : weekday.getMonth() + 1
+            };
+		}
+ 		$scope.daysOfWeek = daysOfWeek;
+      }
 
 });
