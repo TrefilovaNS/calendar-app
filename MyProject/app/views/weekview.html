@@ -2,8 +2,8 @@
    <div class="flex-calendar">
       <div class="month">
         <button class="reset" ng-click="resetToToday()">reset</button>
-        <div class="label">{{selectedDay}} {{selectedMonth}} {{selectedYear}}</div>
-        <div class="arrow" ng-click="nextDay()"></div>
+        <div class="label">{{nameStartWeek}}, {{selectedStartWeek | date: 'dd'}} - {{nameEndWeek}}, {{selectedEndWeek | date: 'dd'}} </div>
+        <div class="arrow" ng-click="nextWeek()"></div>
       </div>
       <div class="week">
         <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
