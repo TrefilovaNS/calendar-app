@@ -17,13 +17,35 @@ app.controller('WeekController', function WeekController($scope) {
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 var WEEKDAYS = ['','MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
 
-		
+	if($scope.events)
+    {
+      createMappedEvents();
+    }
+
+    function createMappedEvents(){
+      $scope.mappedEvents = $scope.events.map(function(obj)
+      {
+        obj.date = new Date(obj.date);
+        return obj;
+      });
+    }
+
+    function registerEvents(){
+      
+      $scope.$on(resetToToday);
+      $scope.$on(nextDay);
+    }
 		
 	$scope.$watch('options.defaultDate', function() {
       calculateSelectedDate();
     });
 
 	$scope.$watch('selectedStartWeek' && 'selectedEndWeek', function() {
+      calculateDaysOfWeek();
+    });
+
+     $scope.$watch('events', function() {
+      createMappedEvents();
       calculateDaysOfWeek();
     });
 
@@ -88,7 +110,8 @@ function calculateSelectedDate() {
  	}
 
  	function calculateDaysOfWeek(){
-      	var daysOfWeek = [];
+
+ 		var daysOfWeek = [];
       	var startWeek = $scope.selectedStartWeek;
 		var endWeek = $scope.selectedEndWeek;
 
@@ -106,7 +129,30 @@ function calculateSelectedDate() {
             };
 		}
  		$scope.daysOfWeek = daysOfWeek;
+ 		
+		}
+         
+      
 
-      }
+  function onClick(date, domEvent) {
+      if (!date) { return; }
+      // $scope.options.defaultDate = date.date;
+      // if (date.event.length && $scope.options.eventClick) {
+      //   $scope.options.eventClick(date, domEvent);
+      // }
+      console.log(date);
+    }
 
+  function bindEvent(date) {
+      if (!date || !$scope.mappedEvents) { return; }
+      date.event = [];
+      $scope.mappedEvents.forEach(function(event) {
+        if (date.date.getFullYear() === event.date.getFullYear()
+            && date.date.getMonth() === event.date.getMonth()
+            && date.date.getDate() === event.date.getDate()
+            && date.date.getHours() === event.date.getHours()) {
+          date.event.push(event);
+        }
+      });
+    }
 });

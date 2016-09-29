@@ -64,8 +64,7 @@ td{
 }
 
 .v-right.week div:nth-child(2n-1) {
-  background-color: #ffb835;
-  color: #fff;
+  background-color: #FFF0E3;
 }
 
 .flex-calendar .days .v-day.time{
