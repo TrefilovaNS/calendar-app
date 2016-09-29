@@ -5,19 +5,32 @@
         <div class="label">{{nameStartWeek}}, {{selectedStartWeek | date: 'dd'}} - {{nameEndWeek}}, {{selectedEndWeek | date: 'dd'}} </div>
         <div class="arrow" ng-click="nextWeek()"></div>
       </div>
-      <div class="week">
+      <div class="v-week">
         <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
       </div>
-      <div class="week">
-        <div class="day week-day" ng-repeat="day in daysOfWeek">{{day.day}}</div>
+      <div class="v-week">
+      <div class="day">Time</div>
+       <div class="day" ng-repeat="day in daysOfWeek">{{day.day}}</div>
       </div>
-      <div class="days">
-        <div class="day" ng-repeat="time in hoursOfDay" ng-click="onClick(time, $event)" ng-class="[{selected: isDefaultDate(time), eventTime: time.event[0]}]" >
-          <div class="left">{{ time.hour + ':00' }}</div>
-          <div class="right" ng-show="time.event[0]"><b>{{time.event[0].name}}:</b> {{time.event[0].description}}<br>
-          <b>Start:</b> {{time.event[0].date | date:'HH:mm'}} <b>Duration:</b> {{time.event[0].duration}}</div>
-        </div>
-      </div>
+      <div class="v-days">
+      
+          <div class="v-left">
+          <div class="day">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            </div>
+          </div>
+          <div class="v-right week">
+            <div class="day color">1</div>
+            <div class="day color">2</div>
+            <div class="day color">3</div>
+            <div class="day color">4</div>
+            <div class="day color">5</div>
+            <div class="day color">6</div>
+            <div class="day color">7</div>
+          </div>
+        
         
       </div>
 </div>

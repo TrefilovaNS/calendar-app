@@ -15,7 +15,7 @@ app.controller('WeekController', function WeekController($scope) {
 		
 
 var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
+var WEEKDAYS = ['','MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
 
 		
 		
@@ -33,8 +33,8 @@ function calculateSelectedDate() {
       $scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
       $scope.selectedDay   = $scope.options.defaultDate.getDate();
       $scope.selectedHour   = $scope.options.defaultDate.getHours();
-      $scope.selectedStartWeek = moment($scope.options.defaultDate).startOf('week').toDate();
-	  $scope.selectedEndWeek = moment($scope.options.defaultDate).endOf('week').toDate();
+      $scope.selectedStartWeek = moment($scope.options.defaultDate).startOf('isoweek').toDate();
+	  $scope.selectedEndWeek = moment($scope.options.defaultDate).endOf('isoweek').toDate();
 
 	  $scope.nameStartWeek = MONTHS[$scope.selectedStartWeek.getMonth()].slice(0, 3);
 	  $scope.nameEndWeek = MONTHS[$scope.selectedEndWeek.getMonth()].slice(0, 3);
@@ -70,8 +70,8 @@ function calculateSelectedDate() {
  		
 
  		var newDate = new Date($scope.selectedYear,$scope.options.defaultDate.getMonth(),$scope.selectedDay,0);
- 		$scope.selectedStartWeek = moment(newDate).startOf('week').toDate();
-	  	$scope.selectedEndWeek = moment(newDate).endOf('week').toDate();
+ 		$scope.selectedStartWeek = moment(newDate).startOf('isoweek').toDate();
+	  	$scope.selectedEndWeek = moment(newDate).endOf('isoweek').toDate();
 
 	  	$scope.nameStartWeek = MONTHS[$scope.selectedStartWeek.getMonth()].slice(0, 3);
 		$scope.nameEndWeek = MONTHS[$scope.selectedEndWeek.getMonth()].slice(0, 3);
@@ -92,12 +92,12 @@ function calculateSelectedDate() {
       	var startWeek = $scope.selectedStartWeek;
 		var endWeek = $scope.selectedEndWeek;
 
-		for(var i = 0; i<7;i++){
+		for(var i = 1; i<8;i++){
 			var weekday = moment(startWeek).weekday(i).toDate();
 			var date = new Date(weekday.getFullYear(),weekday.getMonth(),weekday.getDate(),0)
 			//daysOfWeek.push(weekday)
          
-			daysOfWeek[i] = {
+			daysOfWeek[i-1] = {
             year: weekday.getFullYear(),
             month: MONTHS[weekday.getMonth()],
             day: weekday.getDate(),
@@ -106,6 +106,7 @@ function calculateSelectedDate() {
             };
 		}
  		$scope.daysOfWeek = daysOfWeek;
+
       }
 
 });

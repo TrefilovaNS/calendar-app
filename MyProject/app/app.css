@@ -46,11 +46,32 @@ td{
   min-width: 14%;
 }
 
+.v-left{
+  display: inline;
+  float: left;
+  min-width: 12.495714286%;
+}
+
 .right{
   display: inline;
   float: right;
   min-width: 86%;
 }
+.v-right{
+  display: inline;
+  float: right;
+  min-width: 87.5%;
+}
+
+.v-right.week div:nth-child(2n-1) {
+  background-color: #ffb835;
+  color: #fff;
+}
+
+.flex-calendar .days .v-day.time{
+  border-top: 1px solid #ffb835;
+}
+
 .time.eventTime .right{
   background-color: #faac1c;
   padding: 2px;
@@ -149,6 +170,53 @@ td{
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
+}
+
+.flex-calendar .v-week,
+.flex-calendar .v-days{
+  line-height: 25px;
+
+  font-size: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+
+.flex-calendar .v-week {
+  background-color: #faac1c;
+}
+
+.flex-calendar .v-week .day,
+.flex-calendar .v-days .day{
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  min-width: 12.495714286%;
+
+  text-align: center;
+}
+
+.flex-calendar .v-days .day{
+  min-height: 60px;
+  box-sizing: border-box;
+  position: relative;
+  line-height: 60px;
+  border-top:1px solid #FCFCFC;
+  background-color: #fff;
+  color: #8B8B8B;
+
+  -webkit-transition: all 0.3s ease;
+
+          transition: all 0.3s ease;
+}
+.flex-calendar .v-days .v-day{
+  border-top: 1px solid #ffb835;
 }
 
 .flex-calendar .reset{
