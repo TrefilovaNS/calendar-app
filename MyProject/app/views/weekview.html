@@ -16,22 +16,30 @@
       
           <div class="v-left">
           <div class="day">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            </div>
+            <div ng-repeat="time in daysWithHours">{{ time.hour + ':00' }}</div>
+          </div>
           </div>
           <div class="v-right week">
-            <div class="day color">1</div>
-            <div class="day color">2</div>
-            <div class="day color">3</div>
-            <div class="day color">4</div>
-            <div class="day color">5</div>
-            <div class="day color">6</div>
-            <div class="day color">7</div>
+            <!-- <div class="day color" ng-repeat="time in daysWithHours">
+            
+            <div ng-repeat="dtime in time">{{dtime}}</div>
+            
+            </div> -->
+            <div class="day color">
+           
+            <div >1</div>
+            <div >2</div>
+            <div >3</div>
+            <div >4</div>
+            <div >5</div>
+            <div >6</div>
+            <div >7</div>
+            </div>
+          
           </div>
+
         
         
       </div>
-</div>
 
+</div>

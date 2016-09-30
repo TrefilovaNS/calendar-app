@@ -82,16 +82,18 @@ function calculateSelectedDate() {
 			if (currIndex === 11) {
         			$scope.selectedYear += 1;
         			$scope.selectedMonth = MONTHS[0];
+        			$scope.selectedMonthNumber = 1;
       			} else {
         			$scope.selectedMonth = MONTHS[currIndex + 1];
-        			$scope.selectedDay = 1;
+        			$scope.selectedMonthNumber = currIndex + 1;
+        			$scope.selectedDay = 7;
       			}
 		}else{
 			$scope.selectedDay += 7;
 		}
  		
 
- 		var newDate = new Date($scope.selectedYear,$scope.options.defaultDate.getMonth(),$scope.selectedDay,0);
+ 		var newDate = new Date($scope.selectedYear,$scope.selectedMonthNumber,$scope.selectedDay,0);
  		$scope.selectedStartWeek = moment(newDate).startOf('isoweek').toDate();
 	  	$scope.selectedEndWeek = moment(newDate).endOf('isoweek').toDate();
 
@@ -111,25 +113,43 @@ function calculateSelectedDate() {
 
  	function calculateDaysOfWeek(){
 
- 		var daysOfWeek = [];
+ 	$scope.daysOfWeek = [];
+ 		$scope.daysWithHours = [];
       	var startWeek = $scope.selectedStartWeek;
 		var endWeek = $scope.selectedEndWeek;
 
 		for(var i = 1; i<8;i++){
+			var daysOfWeek = [];
 			var weekday = moment(startWeek).weekday(i).toDate();
-			var date = new Date(weekday.getFullYear(),weekday.getMonth(),weekday.getDate(),0)
+			var daysOfWeekWithHours = [];
 			//daysOfWeek.push(weekday)
-         
-			daysOfWeek[i-1] = {
-            year: weekday.getFullYear(),
-            month: MONTHS[weekday.getMonth()],
-            day: weekday.getDate(),
-            date: date,
-            _month : weekday.getMonth() + 1
-            };
-		}
- 		$scope.daysOfWeek = daysOfWeek;
+         	for(var j = 0; j<24;j++){
+         		
+         		var hour = j;
+         		var date = new Date(weekday.getFullYear(),weekday.getMonth(),weekday.getDate(),hour)
+         		daysOfWeek[hour] = {
+	            year: weekday.getFullYear(),
+	            month: MONTHS[weekday.getMonth()],
+	            day: weekday.getDate(),
+	            hour: hour,
+	            date: date,
+	            _month : weekday.getMonth() + 1
+           	 };
+   //         	 if($scope.mappedEvents){
+			// 	bindEvent(daysOfWeek[hour]);
+			// }
+           	 	daysOfWeekWithHours.push(daysOfWeek[j]); 
+         	}
+			
+         	console.log();
+         	// $scope.daysWithHours.push(daysOfWeekWithHours[i-1]);
+            $scope.daysOfWeek.push(daysOfWeek[i-1]);
+            daysOfWeek = undefined;
+
+            $scope.daysWithHours = daysOfWeekWithHours;
+ 			// console.log($scope.daysWithHours);
  		
+	 		}
 		}
          
       
