@@ -33,7 +33,7 @@ var WEEKDAYS = ['','MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 
     function registerEvents(){
       
       $scope.$on(resetToToday);
-      $scope.$on(nextDay);
+      $scope.$on(nextWeek);
     }
 		
 	$scope.$watch('options.defaultDate', function() {
