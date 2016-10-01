@@ -1,0 +1,18 @@
+<div align="center" class="y-main" ng-controller="YearController">
+
+
+<div class="flex-calendar" style="width: 50%; margin: auto;">
+      <div class="month">
+        <button class="reset" ng-click="resetToToday()">reset</button>
+        <div class="label">{{selectedYear}}</div>
+        <div class="arrow" ng-click="nextMonth()"></div>
+      </div>
+ </div>
+
+<br><br>
+   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
+
+   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
+
+   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
+</div>

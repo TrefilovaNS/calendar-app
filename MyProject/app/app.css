@@ -98,7 +98,21 @@ td{
   line-height: 30px;
 }
 
+.y-month{
+  float: left;
+  width: 40%;
+  min-width: 500px;
+  display: inline-block;
+  margin-left: -90px;
+  margin-right: -50px;
 
+}
+
+.y-main{
+  text-align: center;
+
+  
+}
 
 /*Flex-styles*/
 .flex-calendar {

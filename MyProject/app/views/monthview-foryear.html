@@ -1,0 +1,17 @@
+<div align="center" ng-controller="MonthController">
+   <div class="flex-calendar">
+      <div class="month">
+        
+        <div class="label" style="width:100%;">{{ selectedMonth }} </div>
+        
+      </div>
+      <div class="week">
+        <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
+      </div>
+      <div class="days" ng-repeat="week in weeks">
+        <div class="day" ng-repeat="day in week track by $index" ng-class="[{event: day.event[0], out: !day}]" ng-click="onClick(day, $index, $event)">
+          <div class="number">{{day.day}}</div>
+        </div>
+      </div>
+    </div>
+</div>

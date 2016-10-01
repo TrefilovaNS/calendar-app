@@ -11,11 +11,12 @@
     <script src="views/dayview.module.js"></script>
     <script src="views/monthview.module.js"></script>
     <script src="views/weekview.module.js"></script>
+    <script src="views/yearview.module.js"></script>
 
   </head>
-  <body>
+  <body ng-controller="MainController">
 <h1>Calendar App</h1>
-<div align="right" >
+<div align="right">
 <div class="btn-group" role="group" >
   <button type="button" class="btn btn-default" ng-click="OnEvents()">On events</button>
   <button type="button" class="btn btn-default" ng-click="OffEvents()">Off events</button>
@@ -28,9 +29,7 @@
   <li role="presentation" ng-class="{active: tab.isSet(3)}"><a href="#" ng-click="tab.setTab(3)">Week</a></li>
   <li role="presentation" ng-class="{active: tab.isSet(4)}"><a href="#" ng-click="tab.setTab(4)">Day</a></li>
 </ul>
-        <div ng-show="tab.isSet(1)">
-          <h4>Description</h4>
-          <blockquote>None</blockquote>
+        <div ng-show="tab.isSet(1)" ng-include="'views/yearview.html'"> 
         </div>
         <div ng-show="tab.isSet(2)" ng-include="'views/monthview.html'">          
         </div>
