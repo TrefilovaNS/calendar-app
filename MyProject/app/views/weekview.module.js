@@ -10,6 +10,7 @@ app.controller('WeekController', function WeekController($scope) {
 		$scope.options.defaultDate = new Date();
 		
 		$scope.nextWeek = nextWeek;
+		$scope.onClick = onClick;
 		$scope.resetToToday = resetToToday;
 		$scope.weekDays = weekDays;
 		
@@ -90,6 +91,7 @@ function calculateSelectedDate() {
       			}
 		}else{
 			$scope.selectedDay += 7;
+			$scope.selectedMonthNumber = currIndex;
 		}
  		
 
@@ -135,32 +137,33 @@ function calculateSelectedDate() {
 	            date: date,
 	            _month : weekday.getMonth() + 1
            	 };
-   //         	 if($scope.mappedEvents){
-			// 	bindEvent(daysOfWeek[hour]);
-			// }
+           	 if($scope.mappedEvents){
+				bindEvent(daysOfWeek[hour]);
+			}
            	 	daysOfWeekWithHours.push(daysOfWeek[j]); 
          	}
 			
-         	console.log();
+         	
          	// $scope.daysWithHours.push(daysOfWeekWithHours[i-1]);
             $scope.daysOfWeek.push(daysOfWeek[i-1]);
             daysOfWeek = undefined;
 
-            $scope.daysWithHours = daysOfWeekWithHours;
+            $scope.daysWithHours.push(daysOfWeekWithHours);
  			// console.log($scope.daysWithHours);
- 		
+ 			
 	 		}
+	 		// console.log($scope.daysWithHours);
 		}
          
       
 
   function onClick(date, domEvent) {
-      if (!date) { return; }
+      if (!date.event[0]) { return; }
       // $scope.options.defaultDate = date.date;
       // if (date.event.length && $scope.options.eventClick) {
       //   $scope.options.eventClick(date, domEvent);
       // }
-      console.log(date);
+      console.log(date.event[0]);
     }
 
   function bindEvent(date) {

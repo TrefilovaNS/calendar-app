@@ -62,8 +62,28 @@ td{
   float: right;
   min-width: 87.5%;
 }
+.v-left .day div{
+  min-height: 65px;
+}
 
-.v-right.week div:nth-child(2n-1) {
+.v-right.week .day.color div div span:nth-child(2n){
+  background-color: #faac1c;
+  color: #fff;
+  padding-left: 24%;
+  padding-right: 24%;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  margin-left: -4.8%;
+  cursor: pointer;
+  
+/*  line-height: 30px;*/
+}
+
+.v-right.week .day.color div div span:nth-child(2n-1){
+  font-size: 0px;
+}
+
+.v-right.week div:nth-child(2n-1) div div{
   background-color: #FFF0E3;
 }
 
@@ -77,9 +97,12 @@ td{
   color: #fff;
   line-height: 30px;
 }
+
+
+
 /*Flex-styles*/
 .flex-calendar {
-  width: 60%;
+  width: 65%;
   min-height: 50px;
   color: #FFFFFF;
   font-weight: 200;

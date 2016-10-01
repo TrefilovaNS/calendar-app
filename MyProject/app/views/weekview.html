@@ -16,7 +16,7 @@
       
           <div class="v-left">
           <div class="day">
-            <div ng-repeat="time in daysWithHours">{{ time.hour + ':00' }}</div>
+            <div ng-repeat="time in daysWithHours[0]">{{ time.hour + ':00' }}</div>
           </div>
           </div>
           <div class="v-right week">
@@ -26,15 +26,64 @@
             
             </div> -->
             <div class="day color">
-           
-            <div >1</div>
-            <div >2</div>
-            <div >3</div>
-            <div >4</div>
-            <div >5</div>
-            <div >6</div>
-            <div >7</div>
+              <div ng-repeat="time in daysWithHours[0]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
             </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[1]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[2]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[3]"  ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[4]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[5]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+            <div class="day color">
+              <div ng-repeat="time in daysWithHours[6]" ng-click="onClick(time, $event)">
+                <div><span>{{time.hour}}</span> <span ng-show="time.event[0]">Event</span></div>
+              </div>
+            </div>
+<!-- 
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div>
+
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div>
+
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div>
+
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div>
+
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div>
+
+            <div class="day color">
+              <div ng-show="time.event[0]"></div>
+            </div> -->
           
           </div>
 

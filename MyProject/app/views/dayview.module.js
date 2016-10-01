@@ -96,12 +96,12 @@ function calculateSelectedDate() {
  	}
 
    function onClick(date, domEvent) {
-      if (!date) { return; }
+      if (!date.event[0]) { return; }
       // $scope.options.defaultDate = date.date;
       // if (date.event.length && $scope.options.eventClick) {
       //   $scope.options.eventClick(date, domEvent);
       // }
-      console.log(date);
+      console.log(date.event[0]);
     }
 
   function bindEvent(date) {
@@ -157,7 +157,7 @@ function calculateSelectedDate() {
         }
        
        
-           
+          
 
       }
 
