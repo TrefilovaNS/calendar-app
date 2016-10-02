@@ -5,14 +5,15 @@
       <div class="month">
         <button class="reset" ng-click="resetToToday()">reset</button>
         <div class="label">{{selectedYear}}</div>
-        <div class="arrow" ng-click="nextMonth()"></div>
+        <div class="arrow" ng-click="nextYear()"></div>
       </div>
  </div>
-
-<br><br>
-   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
-
-   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
-
-   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
+ <br><br>
 </div>
+  <div ng-controller="MonthController">
+   <div ng-include="'views/monthview-foryear.html'" ng-controller="JanController" class="y-month"> </div>
+  </div>
+  <div ng-controller="MonthController">
+   <div ng-include="'views/monthview-foryear.html'" ng-controller="FebController" class="y-month"> </div>
+   </div>
+   <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
