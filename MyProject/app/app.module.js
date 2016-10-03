@@ -26,9 +26,21 @@ app.controller('MainController', function($scope){
   ];
   	
    $scope.OnEvents = OnEvents;
+   $scope.OffEvents = OffEvents;
 
-  function OnEvents(){
-  	console.log("hello!");
+ function OnEvents(){
+    console.log("hello!");
   }
+  function OffEvents(){
+    setTimeout(function () {
+        $scope.$apply(function () {
+            $scope.events = [];
+            console.log($scope.events);
+        });
+    }, 1000);
+    
+  }
+
+
 
   });

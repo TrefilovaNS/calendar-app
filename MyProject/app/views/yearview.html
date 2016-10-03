@@ -1,4 +1,4 @@
-<div align="center" class="y-main" ng-controller="YearController">
+<div align="center" class="y-main" ng-controller="CommonYearController">
 
 
 <div class="flex-calendar" style="width: 50%; margin: auto;">
@@ -9,8 +9,8 @@
       </div>
  </div>
  <br><br>
-</div>
-<div ng-controller="CommonYearController">
+
+<!-- <div ng-controller=""> -->
   <div ng-controller="MonthController">
    <div ng-include="'views/monthview-foryear.html'" ng-controller="JanController" class="y-month"> </div>
   </div>
@@ -18,4 +18,5 @@
    <div ng-include="'views/monthview-foryear.html'" ng-controller="FebController" class="y-month"> </div>
    </div>
    <div ng-include="'views/monthview-foryear.html'" class="y-month"> </div>
-</div>
+   </div>
+<!-- </div> -->
