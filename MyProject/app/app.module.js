@@ -20,8 +20,9 @@ app.controller('MainController', function($scope){
    
 
    $scope.events = [
-    {foo: 'bar', date: "2016-10-01 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
-    {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
+    {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
+    {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
+    {foo: 'bar', date: "2016-10-05 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   ];
   	
    $scope.OnEvents = OnEvents;
