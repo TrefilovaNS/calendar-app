@@ -75,11 +75,19 @@ app.controller('CommonYearController', function CommonYearController($scope,Year
   function nextYear() {
       
         $scope.selectedYear += 1;
-        $scope.updatedYear = YearWatcher.addYear($scope.selectedYear);
-        $scope.$broadcast('updatedYear');
+      //  var year = $scope.selectedYear;
+     //   $scope.$broadcast('Year', year);
+        // YearWatcher.dataObj = $scope.selectedYear
+        YearWatcher.addYear($scope.selectedYear);
        
             
     }
+  // $scope.$watch('selectedYear', function() {
+  //    YearWatcher.dataObj = $scope.selectedYear;
+  //    console.log(YearWatcher.dataObj)
+  //    $scope.$broadcast('selectedYear');
+  //   });
+
 
   function resetToToday() {
         $scope.defaultDate = new Date();
@@ -90,21 +98,13 @@ app.controller('CommonYearController', function CommonYearController($scope,Year
 });
 app.controller('JanController', function JanController($scope,YearWatcher,$timeout) {
    
-   $scope.$watch('updatedYear', function() {
-    
-     $scope.selectedYear = $scope.updatedYear;
-      calculate();
-    
-    });
-   
- 
-     calculate();
+   // $scope.$watch('selectedYear', function() {
+   //   // $scope.selectedYear = args;
+   //    calculate();
+   //   console.log("Hello!")
+   //  });
 
-  function calculate(){
-    
-    $scope.options.defaultDate = new Date(YearWatcher.getYear(),0,1);
-    
-  }
+$scope.selectedYear = YearWatcher.getYear();
 
  //    $timeout (function () {
            
@@ -112,7 +112,13 @@ app.controller('JanController', function JanController($scope,YearWatcher,$timeo
  //           // console.log($scope.selectedYear)
  // }, 1000)
 
-   
+     calculate();
+
+  function calculate(){
+    
+    $scope.options.defaultDate = new Date($scope.selectedYear,0,1);
+    
+  }
     
    
 });
