@@ -82,7 +82,8 @@ app.controller('MonthController', function MonthController($scope) {
       if (date.event.length && $scope.options.eventClick) {
         $scope.options.eventClick(date, domEvent);
       }
-      
+      if (!date.event[0]) { return; }
+      console.log(date.event[0]);
     }
 
     function bindEvent(date) {

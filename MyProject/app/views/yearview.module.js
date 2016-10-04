@@ -22,55 +22,11 @@ app.factory('YearWatcher', function() {
     getYear: getYear
   };
 })
-app.controller('YearController', function YearController($scope,YearWatcher) {
-	
-  $scope.options = $scope.options || {};
-  $scope.options.defaultDate = new Date ();
-  $scope.nextYear = nextYear;
-  $scope.resetToToday = resetToToday;
 
-
-
-   var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-    var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
-     
-     $scope.$watch('options.defaultDate', function() {
-      calculateSelectedDate();
-    });
-
-      $scope.$watch('selectedYear', function() {
-         
-         
-        // console.log(YearWatcher.dataObj)
-    });
-
-  
-
-   function calculateSelectedDate() {
-
-      $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
-      $scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
-      $scope.selectedDay   = $scope.options.defaultDate.getDate();
-    }
-
-    
-
-    $scope.$watch('selectedYear', function() {
-      YearWatcher.dataObj = $scope.selectedYear;
-      // console.log(YearWatcher.dataObj)
-   });
-  
-  //YearWatcher.dataObj = 2017;
-  
-    
-});
 app.controller('CommonYearController', function CommonYearController($scope,YearWatcher){
    $scope.selectedYear = YearWatcher.getYear();
-    
-  //console.log(YearWatcher.dataObj)
-
-  $scope.nextYear = nextYear;
-  $scope.resetToToday = resetToToday;
+   $scope.nextYear = nextYear;
+   $scope.resetToToday = resetToToday;
 
   function nextYear() {
       
@@ -84,44 +40,179 @@ app.controller('CommonYearController', function CommonYearController($scope,Year
   function resetToToday() {
         $scope.defaultDate = new Date();
         $scope.selectedYear  = $scope.defaultDate.getFullYear();
-       
+        $scope.updatedYear = YearWatcher.addYear($scope.selectedYear);
+        $scope.$broadcast('updatedYear');
     }
 
 });
-app.controller('JanController', function JanController($scope,YearWatcher,$timeout) {
+app.controller('JanController', function JanController($scope,YearWatcher) {
    
-   $scope.$watch('updatedYear', function() {
-    
-     $scope.selectedYear = $scope.updatedYear;
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
       calculate();
-    
     });
    
- 
      calculate();
 
   function calculate(){
-    
-    $scope.options.defaultDate = new Date(YearWatcher.getYear(),0,1);
-    
-  }
-
- //    $timeout (function () {
-           
- //           calculate();
- //           // console.log($scope.selectedYear)
- // }, 1000)
-
-   
-    
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),0,1);
+        }
    
 });
 
-app.controller('FebController', function FebController($scope) {
-    
-    $scope.options.defaultDate = new Date();
-    $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
-    $scope.options.defaultDate = new Date($scope.selectedYear,1,1);
-    
+app.controller('FebController', function FebController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),1,1);
+        }
+   
+});
+
+app.controller('MarController', function MarController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),2,1);
+        }
+   
+});
+app.controller('AprController', function AprController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),3,1);
+        }
+   
+});
+app.controller('MayController', function MayController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),4,1);
+        }
+   
+});
+app.controller('JunController', function JunController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),5,1);
+        }
+   
+});
+app.controller('JulController', function JulController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),6,1);
+        }
+   
+});
+app.controller('AugController', function AugController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),7,1);
+        }
+   
+});
+app.controller('SepController', function SepController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),8,1);
+        }
+   
+});
+app.controller('OctController', function OctController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),9,1);
+        }
+   
+});
+app.controller('NovController', function NovController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),10,1);
+        }
+   
+});
+app.controller('DecController', function DecController($scope,YearWatcher) {
+   
+   $scope.$watch('updatedYear', function() {    
+      $scope.selectedYear = $scope.updatedYear;
+      calculate();
+    });
+   
+     calculate();
+
+  function calculate(){
+     $scope.options.defaultDate = new Date(YearWatcher.getYear(),11,1);
+        }
+   
 });
 //для каждого месяца - свой контроллер
