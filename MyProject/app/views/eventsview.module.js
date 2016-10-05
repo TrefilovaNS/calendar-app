@@ -1,133 +1,57 @@
 'use strict';
 
-var app = angular.module('YearView', [
+var app = angular.module('EventsView', [
 
 ]);
-app.factory('YearWatcher', function() {
-  // private variable
-  var date = new Date();
-  // var yearDate = 
-  var _dataObj = {
-    yearDate: date.getFullYear()
-  }
-  function addYear (year) {
-        return _dataObj.yearDate = year;
-  };
-  function getYear (){
-    return _dataObj.yearDate;
-  }
-  return {
-    
-    addYear: addYear,
-    getYear: getYear
-  };
-})
-app.controller('YearController', function YearController($scope,YearWatcher) {
-	
-  $scope.options = $scope.options || {};
-  $scope.options.defaultDate = new Date ();
-  $scope.nextYear = nextYear;
-  $scope.resetToToday = resetToToday;
 
+app.controller('EventsView', function EventsView($scope) {
 
+  $scope.onSubmit = onSubmit;
+  var db = new Dexie("todos-dexie");
+ var input = document.querySelector('input');
 
-   var MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-    var WEEKDAYS = ['MONDAY' , 'TUESDAY' , 'WEDNESDAY' , 'THURSDAY' , 'FRIDAY' , 'SATURDAY', 'SUNDAY'];
-     
-     $scope.$watch('options.defaultDate', function() {
-      calculateSelectedDate();
-    });
+ // var ul = document.querySelector('ul');
+ // document.body.addEventListener('submit', onSubmit);
+ document.body.addEventListener('click', onClick);
 
-      $scope.$watch('selectedYear', function() {
-         
-         
-        // console.log(YearWatcher.dataObj)
-    });
+  db.version(1).stores({ todo: '_id' })
+  db.open()
+    .then(refreshView);
 
-  
-
-   function calculateSelectedDate() {
-
-      $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
-      $scope.selectedMonth = MONTHS[$scope.options.defaultDate.getMonth()];
-      $scope.selectedDay   = $scope.options.defaultDate.getDate();
+  function onClick(e) {
+    e.preventDefault();
+    if (e.target.hasAttribute('id')) {
+      db.todo.where('_id').equals(e.target.getAttribute('id')).delete()
+        .then(refreshView);
     }
+  }
 
-    
+  function onSubmit(e) {
+    e.preventDefault();
+    db.todo.put({ text: input.value, _id: String(Date.now()) })
+      .then(function() {
+        input.value = '';
+      })
+      .then(refreshView);
+  }
 
-    $scope.$watch('selectedYear', function() {
-      YearWatcher.dataObj = $scope.selectedYear;
-      // console.log(YearWatcher.dataObj)
+  function refreshView() {
+    return db.todo.toArray()
+      .then(renderAllTodos);
+  }
+
+  function renderAllTodos(todos) {
+    var html = '';
+    todos.forEach(function(todo) {
+      html += todoToHtml(todo);
+    });
+    ul.innerHTML = html;
+  }
+
+  function todoToHtml(todo) {
+    return '<li><button id="'+todo._id+'">delete</button>'+todo.text+'</li>';
+  }
+
+
    });
   
-  //YearWatcher.dataObj = 2017;
-  
-    
-});
-app.controller('CommonYearController', function CommonYearController($scope,YearWatcher){
-   $scope.selectedYear = YearWatcher.getYear();
-    
-  //console.log(YearWatcher.dataObj)
-
-  $scope.nextYear = nextYear;
-  $scope.resetToToday = resetToToday;
-
-  function nextYear() {
-      
-        $scope.selectedYear += 1;
-      //  var year = $scope.selectedYear;
-     //   $scope.$broadcast('Year', year);
-        // YearWatcher.dataObj = $scope.selectedYear
-        YearWatcher.addYear($scope.selectedYear);
-       
-            
-    }
-  // $scope.$watch('selectedYear', function() {
-  //    YearWatcher.dataObj = $scope.selectedYear;
-  //    console.log(YearWatcher.dataObj)
-  //    $scope.$broadcast('selectedYear');
-  //   });
-
-
-  function resetToToday() {
-        $scope.defaultDate = new Date();
-        $scope.selectedYear  = $scope.defaultDate.getFullYear();
-       
-    }
-
-});
-app.controller('JanController', function JanController($scope,YearWatcher,$timeout) {
-   
-   // $scope.$watch('selectedYear', function() {
-   //   // $scope.selectedYear = args;
-   //    calculate();
-   //   console.log("Hello!")
-   //  });
-
-$scope.selectedYear = YearWatcher.getYear();
-
- //    $timeout (function () {
-           
- //           calculate();
- //           // console.log($scope.selectedYear)
- // }, 1000)
-
-     calculate();
-
-  function calculate(){
-    
-    $scope.options.defaultDate = new Date($scope.selectedYear,0,1);
-    
-  }
-    
-   
-});
-
-app.controller('FebController', function FebController($scope) {
-    
-    $scope.options.defaultDate = new Date();
-    $scope.selectedYear  = $scope.options.defaultDate.getFullYear();
-    $scope.options.defaultDate = new Date($scope.selectedYear,1,1);
-    
-});
-//для каждого месяца - свой контроллер
