@@ -12,6 +12,7 @@ app.config(function($routeProvider) {
   .when("/events", {
     templateUrl : "main-views/eventsview.html"
   })
+  .otherwise('/views');
 });
 app.controller('TabController', function($scope){
     this.tab = 1;

@@ -1,21 +1,39 @@
-(function() {
+$(document).ready(function() {
+
+$("#addEvent").on("click", addEvent);
+$("#dltEvent").on("click", dltEvent);
+
 
 var db = new Dexie("dexie1");
 db.version(1).stores({
-notes:"++id,text,created"
+events:"++_id,name,description,created"
 });
 db.open();
 console.dir(db);
 
-db.notes.add(
-{ text:'foo', created:new Date().getTime() }
-).then(function() {
-console.log('Note added.');
-}).catch(function(err) {
-});
+function addEvent(e){
+  var name = $("#name").val();
+  var description = $("#description").val();
+
+
+  db.events.add(
+  { name: name, description: description, created:new Date().getTime() }
+  ).then(function() {
+  name.value = '';
+  description.value = '';
+  console.log('Note added.');
+  })
+  .then(refreshView)
+  .catch(function(err) {
+  });
+
+}
+
+
+
 
   // var db = new Dexie("todos-dexie");
-  // var input = document.getElementById('in');
+  // var input = document.querySelector('input');
   // var ul = document.querySelector('ul');
   // document.addEventListener('submit', onSubmit);
   // document.addEventListener('click', onClick);
@@ -24,13 +42,13 @@ console.log('Note added.');
   // db.open()
   //   .then(refreshView);
 
-  // function onClick(e) {
-  //   e.preventDefault();
-  //   if (e.target.hasAttribute('id')) {
-  //     db.todo.where('_id').equals(e.target.getAttribute('id')).delete()
-  //       .then(refreshView);
-  //   }
-  // }
+  function dltEvent(e) {
+    e.preventDefault();
+    if (e.target.hasAttribute('id')) {
+      db.events.where('_id').equals(e.target.getAttribute('id')).delete()
+        .then(refreshView);
+    }
+  }
 
   // function onSubmit(e) {
   //   e.preventDefault();
@@ -41,20 +59,23 @@ console.log('Note added.');
   //     .then(refreshView);
   // }
 
-  // function refreshView() {
-  //   return db.todo.toArray()
-  //     .then(renderAllTodos);
-  // }
+  function refreshView() {
+    return db.events.toArray()
+      .then(renderAllTodos);
+       
+  }
 
-  // function renderAllTodos(todos) {
-  //   var html = '';
-  //   todos.forEach(function(todo) {
-  //     html += todoToHtml(todo);
-  //   });
-  //   ul.innerHTML = html;
-  // }
+  function renderAllTodos(events) {
+    var html = '';
+    events.forEach(function(event) {
+      html += todoToHtml(event);
+    });
+    $("#list").append(html);
+    console.log('In render');
+  }
 
-  // function todoToHtml(todo) {
-  //   return '<li><button id="'+todo._id+'">delete</button>'+todo.text+'</li>';
-  // }
-}());
+  function todoToHtml(event) {
+    return '<li><button id="'+event._id+'">delete</button>'+event.name+'</li>';
+  }
+// }());
+});
