@@ -1,7 +1,18 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['DayView', 'MonthView', 'WeekView','YearView']);
-
+var app = angular.module('calendarApp', ['ngRoute','DayView', 'MonthView', 'WeekView','YearView']);
+app.config(function($routeProvider) {
+  $routeProvider
+  // .when("/", {
+  //   templateUrl : "index.html"
+  // })
+   .when("/views", {
+    templateUrl : "main-views/views.html"
+  })
+  .when("/events", {
+    templateUrl : "main-views/eventsview.html"
+  })
+});
 app.controller('TabController', function($scope){
     this.tab = 1;
 

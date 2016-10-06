@@ -1,0 +1,23 @@
+<div ng-controller="MainController">
+
+
+   <section class="tab" ng-controller="TabController as tab">
+ <ul class="nav nav-tabs">
+  <li role="presentation" class="active" ng-class="{active: tab.isSet(1)}"><a ng-click="tab.setTab(1)">Year</a></li>
+  <li role="presentation" ng-class="{active: tab.isSet(2)}"><a  ng-click="tab.setTab(2)">Month</a></li>
+  <li role="presentation" ng-class="{active: tab.isSet(3)}"><a ng-click="tab.setTab(3)">Week</a></li>
+  <li role="presentation" ng-class="{active: tab.isSet(4)}"><a  ng-click="tab.setTab(4)">Day</a></li>
+<!--   <li role="presentation" ng-class="{active: tab.isSet(5)}"><a href="#" ng-click="tab.setTab(5)">Events List</a></li> -->
+</ul>
+        <div ng-show="tab.isSet(1)" ng-include="'views/yearview.html'"> 
+        </div>
+        <div ng-show="tab.isSet(2)" ng-include="'views/monthview.html'">          
+        </div>
+        <div ng-show="tab.isSet(3)" ng-include="'views/weekview.html'">
+        </div>
+        <div ng-show="tab.isSet(4)" ng-include="'views/dayview.html'">  
+        </div>
+        <div ng-show="tab.isSet(5)" ng-include="'views/eventsview.html'">  
+        </div>
+</section>
+</div>

@@ -7,7 +7,12 @@ notes:"++id,text,created"
 db.open();
 console.dir(db);
 
-
+db.notes.add(
+{ text:'foo', created:new Date().getTime() }
+).then(function() {
+console.log('Note added.');
+}).catch(function(err) {
+});
 
   // var db = new Dexie("todos-dexie");
   // var input = document.getElementById('in');
