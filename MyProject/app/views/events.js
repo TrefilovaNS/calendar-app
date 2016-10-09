@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
 $("#addEvent").on("click", addEvent);
+$(document.body).on('click', '.dltBtn', dltEvent); 
 
 
 
@@ -17,7 +18,7 @@ function addEvent(e){
 
 
   db.events.add(
-  { _id: +1, name: name, description: description, created:new Date().getTime() }
+  { _id: String(Date.now()), name: name, description: description, created:new Date().getTime() }
   ).then(function() {
   name.value = '';
   description.value = '';
@@ -43,11 +44,11 @@ function addEvent(e){
   //   .then(refreshView);
 
   function dltEvent(e) {
-    // e.preventDefault();
-    // if (e.target.hasAttribute('id')) {
-      db.events.delete(1).then(refreshView);
-        //console.log(db.events.where('_id').equals(e.target.getAttribute('id')));
-    // }
+    e.preventDefault();
+    if (e.target.hasAttribute('ide')) {
+      db.events.where('_id').equals(e.target.getAttribute('ide')).delete()
+        .then(refreshView);
+    }
   }
 
   // function onSubmit(e) {
@@ -71,14 +72,12 @@ function addEvent(e){
       html += todoToHtml(event);
     });
     $("#list").html(html);
-    if(events.length > 0){
-      $("#1").on("click", dltEvent);  
-    }
+    
     console.log('In render');
   }
 
   function todoToHtml(event) {
-    return '<li><button id="'+event._id+'">delete</button>'+event.name+'</li>';
+    return '<li><button class="dltBtn" ide="'+event._id+'">delete</button>'+event.name+'</li>';
   }
 // }());
 });
