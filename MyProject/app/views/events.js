@@ -1,5 +1,13 @@
+function idbOK() {
+return "indexedDB" in window;
+}
+
+
 $(document).ready(function() {
 
+if(!idbOK()){
+  console.log("Not suported IndexedDB")
+}
 $("#addEvent").on("click", addEvent);
 $(document.body).on('click', '.dltBtn', dltEvent); 
 
