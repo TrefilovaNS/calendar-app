@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
 $("#addEvent").on("click", addEvent);
-$("#dltEvent").on("click", dltEvent);
+
 
 
 var db = new Dexie("dexie1");
 db.version(1).stores({
-events:"++_id,name,description,created"
+events:"_id,name,description,created"
 });
 db.open();
 console.dir(db);
@@ -17,7 +17,7 @@ function addEvent(e){
 
 
   db.events.add(
-  { name: name, description: description, created:new Date().getTime() }
+  { _id: +1, name: name, description: description, created:new Date().getTime() }
   ).then(function() {
   name.value = '';
   description.value = '';
@@ -43,11 +43,11 @@ function addEvent(e){
   //   .then(refreshView);
 
   function dltEvent(e) {
-    e.preventDefault();
-    if (e.target.hasAttribute('id')) {
-      db.events.where('_id').equals(e.target.getAttribute('id')).delete()
-        .then(refreshView);
-    }
+    // e.preventDefault();
+    // if (e.target.hasAttribute('id')) {
+      db.events.delete(1).then(refreshView);
+        //console.log(db.events.where('_id').equals(e.target.getAttribute('id')));
+    // }
   }
 
   // function onSubmit(e) {
@@ -70,7 +70,10 @@ function addEvent(e){
     events.forEach(function(event) {
       html += todoToHtml(event);
     });
-    $("#list").append(html);
+    $("#list").html(html);
+    if(events.length > 0){
+      $("#1").on("click", dltEvent);  
+    }
     console.log('In render');
   }
 
