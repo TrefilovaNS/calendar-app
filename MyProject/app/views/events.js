@@ -46,7 +46,7 @@ function addEvent(e){
 
 
   db.events.add(
-  { _id: String(Date.now()), name: name, description: description, startDate: startDate + " " + startTime, endDate: endDate + " " + endTime, place: place}
+  { _id: String(Date.now()), name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
   ).then(function() {
   name.value = '';
   description.value = '';
@@ -83,7 +83,7 @@ function clrAllInputs(e){
 
   function updEvent(e){
 
-  // var name = $("#name").val();
+  
   // var description = $("#description").val();
   // var startDate = $("#startDate").val();
   // var startTime = $("#startTime").val();
@@ -92,9 +92,20 @@ function clrAllInputs(e){
   // var place = $("#place").val();
 
     e.preventDefault();
+    var id = e.target.getAttribute('ide');
 
-  db.events.get(e.target.getAttribute('ide')).then(function(event) {  
-    console.dir(event);
+  db.events.get(id).then(function(event) { 
+  $("#name").val(event.name);
+  $("#description").val(event.description);
+  $("#startDate").val(event.startDate);
+  $("#startTime").val(event.startTime);
+  $("#endDate").val(event.endDate);
+  $("#endTime").val(event.endTime);
+  $("#place").val(event.place);
+
+
+
+    console.log(event);
      }); 
 
     // db.events.put( { name: name, description: description, startDate: startDate + " " + startTime, endDate: endDate + " " + endTime, place: place, key } )
