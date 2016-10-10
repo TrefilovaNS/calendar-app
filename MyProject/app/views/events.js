@@ -9,7 +9,9 @@ if(!idbOK()){
   return console.log("Not suported IndexedDB")
 }
 $("#addEvent").on("click", addEvent);
+$('#clrAllInputs').on("click", clrAllInputs)
 $(document.body).on('click', '.dltBtn', dltEvent); 
+$(document.body).on('click', '.updBtn', updEvent); 
 
  $('#datePicker .time').timepicker({
         'showDuration': true,
@@ -26,21 +28,25 @@ $(document.body).on('click', '.dltBtn', dltEvent);
 
 var db = new Dexie("dexie1");
 db.version(1).stores({
-events:"_id,name,description,startDate,endDate,place,created"
+events:"_id,name,description,startDate,endDate,place"
 });
 db.open();
 console.dir(db);
+
+
 
 function addEvent(e){
   var name = $("#name").val();
   var description = $("#description").val();
   var startDate = $("#startDate").val();
+  var startTime = $("#startTime").val();
   var endDate = $("#endDate").val();
+  var endTime = $("#endTime").val();
   var place = $("#place").val();
 
 
   db.events.add(
-  { _id: String(Date.now()), name: name, description: description, startDate: startDate, endDate: endDate, place: place, created:new Date().getTime() }
+  { _id: String(Date.now()), name: name, description: description, startDate: startDate + " " + startTime, endDate: endDate + " " + endTime, place: place}
   ).then(function() {
   name.value = '';
   description.value = '';
@@ -50,20 +56,22 @@ function addEvent(e){
   .catch(function(err) {
   });
 
+  clrAllInputs();
+
+}
+
+function clrAllInputs(e){
+  $("#name").val('');
+  $("#description").val('');
+  $("#startDate").val('');
+  $("#startTime").val('');
+  $("#endDate").val('');
+  $("#endTime").val('');
+  $("#place").val('');
+
 }
 
 
-
-
-  // var db = new Dexie("Events-dexie");
-  // var input = document.querySelector('input');
-  // var ul = document.querySelector('ul');
-  // document.addEventListener('submit', onSubmit);
-  // document.addEventListener('click', onClick);
-
-  // db.version(1).stores({ todo: '_id' })
-  // db.open()
-  //   .then(refreshView);
 
   function dltEvent(e) {
     e.preventDefault();
@@ -73,14 +81,32 @@ function addEvent(e){
     }
   }
 
-  // function onSubmit(e) {
-  //   e.preventDefault();
-  //   db.todo.put({ text: input.value, _id: String(Date.now()) })
-  //     .then(function() {
-  //       input.value = '';
-  //     })
-  //     .then(refreshView);
-  // }
+  function updEvent(e){
+
+  // var name = $("#name").val();
+  // var description = $("#description").val();
+  // var startDate = $("#startDate").val();
+  // var startTime = $("#startTime").val();
+  // var endDate = $("#endDate").val();
+  // var endTime = $("#endTime").val();
+  // var place = $("#place").val();
+
+    e.preventDefault();
+
+  db.events.get(e.target.getAttribute('ide')).then(function(event) {  
+    console.dir(event);
+     }); 
+
+    // db.events.put( { name: name, description: description, startDate: startDate + " " + startTime, endDate: endDate + " " + endTime, place: place, key } )
+    // .then(function() { 
+    //   console.log('Note updated.'); 
+    // })
+    // .catch(function(err) { 
+    // });
+
+
+
+  }
 
   function refreshView() {
     return db.events.toArray()
