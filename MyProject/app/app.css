@@ -1,39 +1,4 @@
 
-table{
- width: 60%;
- border-collapse: collapse;
-}
-table, th, td {
-    border: 1px solid black;
-}
-td:nth-child(n) {
-    text-align: center;
-}
-.day td:nth-child(2n+0) {
-    width: 90%;
-}
-th{
-	text-align: center;
-}
-td{
-	 width: 10%;
-	 height: 30px;
-}
-
-.month th {
-    height: 20px;
-}
-
-.month td {
-	height: 80px;
-	text-align: left;
-	vertical-align: top;
-}
-
-.week tr td{
-	height: 50px;
-	min-width: 80px;
-}
 
 .left{
   display: inline;

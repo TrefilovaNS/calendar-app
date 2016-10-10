@@ -5,6 +5,9 @@
     <title>Calendar App</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery-timepicker/jquery.timepicker.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
+    
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/moment/moment.js"></script>
@@ -15,12 +18,16 @@
     <script src="views/monthview.module.js"></script>
     <script src="views/weekview.module.js"></script>
     <script src="views/yearview.module.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-timepicker/jquery.timepicker.js"></script>
+    <script type="text/javascript" src="bower_components/datepair/dist/datepair.js"></script>
    <!--  <script src="views/eventsview.module.js"></script> -->
     <script src="views/events.js"></script>
 
   </head>
   <body>
      <div ng-include="'main-views/menu.html'"> </div>
+
  <!--  <div ng-include="'main-views/views.html'">  -->
   <div ng-view></div>
   </body>
