@@ -28,7 +28,7 @@ $(document.body).on('click', '.updBtn', updEvent);
 
 var db = new Dexie("dexie1");
 db.version(1).stores({
-events:"_id,name,description,startDate,endDate,place"
+events:"++id,name,description,startDate,endDate,place"
 });
 db.open();
 console.dir(db);
@@ -43,28 +43,29 @@ function addEvent(e){
     var endDate = $("#endDate").val();
     var endTime = $("#endTime").val();
     var place = $("#place").val();
-    var dateID = $("#idDate").text();
+    var idEvnt = $("#idEvnt").text();
   
-  if(dateID){
-    var milisecStr = new Date(dateID);
-    var milisecID = Date.parse(milisecStr);
-    console.log(milisecID);
+  if(idEvnt){
+    // var milisecStr = new Date(dateID);
+    // var milisecID = Date.parse(milisecStr);
+    console.log(idEvnt);
+    var intEvnt = parseInt(idEvnt);
 
   //     var eventID = event._id;
   // var date = new Date(parseInt(eventID));
 
-    //  db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, milisecID } )
-    // .then(function() { 
-    //   console.log('Note updated.'); 
-    // })
-    // .catch(function(err) { 
-    // });
+     db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
+    .then(function() { 
+      console.log('Note updated.'); 
+    })
+    .catch(function(err) { 
+    });
 
   }else{
 
    
     db.events.add(
-  { _id: String(Date.now()), name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
+  { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
   ).then(function() {
   name.value = '';
   description.value = '';
@@ -98,26 +99,20 @@ function clrAllInputs(e){
 
   function dltEvent(e) {
     e.preventDefault();
-    if (e.target.hasAttribute('ide')) {
-      db.events.where('_id').equals(e.target.getAttribute('ide')).delete()
-        .then(refreshView);
-    }
+    var id = e.target.getAttribute('id');
+    var intID = parseInt(id);
+    db.events.delete(intID).then(refreshView);
+
   }
 
-  // function sendId(id){
-  //   this.id = id;
-  //   return console.log(id);
-  // }
 
-  // function getId(){
-  //   se
-  // }
   function updEvent(e){
 
     e.preventDefault();
-    var id = e.target.getAttribute('ide');
+    var id = e.target.getAttribute('id');
+    var intID = parseInt(id);
 
-  db.events.get(id).then(function(event) { 
+  db.events.get(intID).then(function(event) { 
   $("#name").val(event.name);
   $("#description").val(event.description);
   $("#startDate").val(event.startDate);
@@ -127,10 +122,10 @@ function clrAllInputs(e){
   $("#place").val(event.place);
  
   
-  var eventID = event._id;
-  var date = new Date(parseInt(eventID));
+  var eventID = event.id;
+  // var date = new Date(parseInt(eventID));
  
-  $("#for-date").html("<label class='col-sm-2 control-label'>Created:</label> " + "<div class='col-sm-10' style='height:34px;' id='idDate'>" + date + "</div>");
+  $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left;' id='idEvnt'>" + eventID + "</div>");
   
     console.log(event);
      }); 
@@ -158,7 +153,7 @@ function clrAllInputs(e){
   }
 
   function todoToHtml(event) {
-    return '<tr><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" ide="'+event._id+'">delete</button><button class="btn btn-default updBtn" ide="'+event._id+'">update</button></div></td></tr>';
+    return '<tr><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
 // }());
 });
