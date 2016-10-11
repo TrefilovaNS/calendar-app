@@ -36,16 +36,34 @@ console.dir(db);
 
 
 function addEvent(e){
-  var name = $("#name").val();
-  var description = $("#description").val();
-  var startDate = $("#startDate").val();
-  var startTime = $("#startTime").val();
-  var endDate = $("#endDate").val();
-  var endTime = $("#endTime").val();
-  var place = $("#place").val();
+    var name = $("#name").val();
+    var description = $("#description").val();
+    var startDate = $("#startDate").val();
+    var startTime = $("#startTime").val();
+    var endDate = $("#endDate").val();
+    var endTime = $("#endTime").val();
+    var place = $("#place").val();
+    var dateID = $("#idDate").text();
+  
+  if(dateID){
+    var milisecStr = new Date(dateID);
+    var milisecID = Date.parse(milisecStr);
+    console.log(milisecID);
 
+  //     var eventID = event._id;
+  // var date = new Date(parseInt(eventID));
 
-  db.events.add(
+    //  db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, milisecID } )
+    // .then(function() { 
+    //   console.log('Note updated.'); 
+    // })
+    // .catch(function(err) { 
+    // });
+
+  }else{
+
+   
+    db.events.add(
   { _id: String(Date.now()), name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
   ).then(function() {
   name.value = '';
@@ -57,6 +75,9 @@ function addEvent(e){
   });
 
   clrAllInputs();
+  }
+
+  
 
 }
 
@@ -68,6 +89,8 @@ function clrAllInputs(e){
   $("#endDate").val('');
   $("#endTime").val('');
   $("#place").val('');
+
+
 
 }
 
@@ -81,15 +104,15 @@ function clrAllInputs(e){
     }
   }
 
-  function updEvent(e){
+  // function sendId(id){
+  //   this.id = id;
+  //   return console.log(id);
+  // }
 
-  
-  // var description = $("#description").val();
-  // var startDate = $("#startDate").val();
-  // var startTime = $("#startTime").val();
-  // var endDate = $("#endDate").val();
-  // var endTime = $("#endTime").val();
-  // var place = $("#place").val();
+  // function getId(){
+  //   se
+  // }
+  function updEvent(e){
 
     e.preventDefault();
     var id = e.target.getAttribute('ide');
@@ -102,18 +125,17 @@ function clrAllInputs(e){
   $("#endDate").val(event.endDate);
   $("#endTime").val(event.endTime);
   $("#place").val(event.place);
-
-
-
+ 
+  
+  var eventID = event._id;
+  var date = new Date(parseInt(eventID));
+ 
+  $("#for-date").html("<label class='col-sm-2 control-label'>Created:</label> " + "<div class='col-sm-10' style='height:34px;' id='idDate'>" + date + "</div>");
+  
     console.log(event);
      }); 
 
-    // db.events.put( { name: name, description: description, startDate: startDate + " " + startTime, endDate: endDate + " " + endTime, place: place, key } )
-    // .then(function() { 
-    //   console.log('Note updated.'); 
-    // })
-    // .catch(function(err) { 
-    // });
+   
 
 
 
