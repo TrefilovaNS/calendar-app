@@ -328,3 +328,6 @@ button:focus { outline:0 !important; }
   bottom:10px;
   margin-left:-3px;
 }
+.ui-timepicker-wrapper{
+  width: 11%;
+}

@@ -46,20 +46,17 @@ function addEvent(e){
     var idEvnt = $("#idEvnt").text();
   
   if(idEvnt){
-    // var milisecStr = new Date(dateID);
-    // var milisecID = Date.parse(milisecStr);
-    console.log(idEvnt);
+
+
     var intEvnt = parseInt(idEvnt);
-
-  //     var eventID = event._id;
-  // var date = new Date(parseInt(eventID));
-
-     db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
+    db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
     .then(function() { 
       console.log('Note updated.'); 
     })
     .catch(function(err) { 
     });
+
+    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
 
   }else{
 
@@ -67,9 +64,7 @@ function addEvent(e){
     db.events.add(
   { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
   ).then(function() {
-  name.value = '';
-  description.value = '';
-  console.log('Note added.');
+  $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added!</div>");
   })
   .then(refreshView)
   .catch(function(err) {
@@ -90,6 +85,8 @@ function clrAllInputs(e){
   $("#endDate").val('');
   $("#endTime").val('');
   $("#place").val('');
+  $("#for-date").text('');
+  $("#placeForMessages").text('');
 
 
 
@@ -123,10 +120,9 @@ function clrAllInputs(e){
  
   
   var eventID = event.id;
-  // var date = new Date(parseInt(eventID));
  
-  $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left;' id='idEvnt'>" + eventID + "</div>");
-  
+  $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left; padding-top: 7px;' id='idEvnt'>" + eventID + "</div>");
+  $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Now you can edit this event!</div>");
     console.log(event);
      }); 
 
@@ -153,7 +149,7 @@ function clrAllInputs(e){
   }
 
   function todoToHtml(event) {
-    return '<tr><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
+    return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
 // }());
 });
