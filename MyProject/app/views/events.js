@@ -31,8 +31,16 @@ db.version(1).stores({
 events:"++id,name,description,startDate,endDate,place"
 });
 db.open();
-console.dir(db);
 
+
+function getAllData(){
+  var allData = [];
+  db.events.each(function(event){
+    allData.push(event);
+  });
+return allData;
+
+}
 
 
 function addEvent(e){
@@ -152,4 +160,6 @@ function clrAllInputs(e){
     return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
 // }());
+
+// $dexieBind.bind(db, db.events.toArray(), $scope);
 });

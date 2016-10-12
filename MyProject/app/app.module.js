@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['ngRoute','DayView', 'MonthView', 'WeekView','YearView']);
+var app = angular.module('calendarApp', ['ngRoute','ngDexieBind','DayView', 'MonthView', 'WeekView','YearView']);
 app.config(function($routeProvider) {
   $routeProvider
   // .when("/", {
@@ -14,6 +14,27 @@ app.config(function($routeProvider) {
   })
   .otherwise('/views');
 });
+
+// app.factory('Factory', function() {
+
+//   $dexieBind.bind(db, db.events, $scope);
+
+  // // private variable
+  // var date = new Date();
+  // // var yearDate = 
+  // var _dataObj = {
+  //   data: date.getFullYear()
+  // }
+
+  // function getYear (){
+  //   return _dataObj.yearDate;
+  // }
+  // return {
+    
+   
+  //   getYear: getYear
+  // };
+  // });
 app.controller('TabController', function($scope){
     this.tab = 1;
 
@@ -28,8 +49,10 @@ app.controller('TabController', function($scope){
 
   });
 
-app.controller('MainController', function($scope){
+app.controller('MainController', function($scope, $dexieBind){
    
+  
+  console.log($dexieBind);
 
    $scope.events = [
     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element

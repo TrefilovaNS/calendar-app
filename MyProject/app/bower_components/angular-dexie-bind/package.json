@@ -1,0 +1,49 @@
+{
+  "name": "angular-dexie-bind",
+  "version": "0.1.3",
+  "description": "An angular service to bind IndexDB queries to angular variables",
+  "keywords": [
+    "dexie.js",
+    "dexiejs",
+    "angular",
+    "indexeddb",
+    "angular.js",
+    "angularjs",
+    "bind"
+  ],
+  "homepage": "https://github.com/nhahn/angular-dexie-bind",
+  "bugs": "https://github.com/nhahn/angular-dexie-bind/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Nathan Hahn",
+    "email": "nphahn@gmail.com",
+    "url": "https://github.com/nhahn"
+  },
+  "contributors": [
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nhahn/angular-dexie-bind.git"
+  },
+  "devDependencies": {
+    "angular": "~1.3.17",
+    "bower": "^1.3.5",
+    "chai": "~3.0.0",
+    "coveralls": "^2.10.0",
+    "dexie": "~1.1.0",
+    "grunt": "~0.4.5",
+    "grunt-bump": "~0.3.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "~0.11.2",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-conventional-changelog": "^1.2.2",
+    "istanbul": "^0.2.16",
+    "mocha": "^2.2.5",
+    "mocha-lcov-reporter": "~0.0.2"
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install"
+  }
+}
