@@ -14,7 +14,7 @@ app.config(function($routeProvider) {
   .when("/events", {
     templateUrl : "main-views/eventsview.html"
   })
-  .otherwise('/views');
+  .otherwise('/events');
 });
 
 // app.factory('Factory', function() {

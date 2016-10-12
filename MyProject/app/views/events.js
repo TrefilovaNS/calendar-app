@@ -1,12 +1,12 @@
 
 $(document).ready(function() {
-window.onload = function() {
-    if(!window.location.hash) {
-        window.location = window.location + '#loaded';
+window.onload = function () {
+    if (! localStorage.justOnce) {
+        localStorage.setItem("justOnce", "true");
         window.location.reload();
     }
 }
-
+window.onload();
 function idbOK() {
 return "indexedDB" in window;
 }
@@ -14,6 +14,9 @@ return "indexedDB" in window;
 if(!idbOK()){
   return console.log("Not suported IndexedDB")
 }
+
+$("#placeForMessages").html("<div class='alert alert-success' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
+
 $("#addEvent").on("click", addEvent);
 $('#clrAllInputs').on("click", clrAllInputs)
 $(document.body).on('click', '.dltBtn', dltEvent); 
@@ -28,8 +31,8 @@ $(document.body).on('click', '.updBtn', updEvent);
         'format': 'yyyy-mm-dd',
         'autoclose': true
     });
- // var basicExampleEl = document.getElementById('datePicker');
- // var datepair = new Datepair(basicExampleEl);
+ var basicExampleEl = document.getElementById('datePicker');
+ var datepair = new Datepair(basicExampleEl);
 
 
 var db = new Dexie("dexie1");
@@ -68,7 +71,7 @@ function addEvent(e){
     db.events.add(
   { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
   ).then(function() {
-  $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added!</div>");
+  $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added! See your events in <a href='#views'>Calendar</a></div>");
   })
   .then(refreshView)
   .catch(function(err) {
