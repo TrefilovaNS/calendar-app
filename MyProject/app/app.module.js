@@ -1,6 +1,8 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['ngRoute','ngDexieBind','DayView', 'MonthView', 'WeekView','YearView']);
+var app = angular.module('calendarApp', ['ngRoute','DayView', 'MonthView', 'WeekView','YearView']);
+angular.module('calendarApp').constant('dexie', window.Dexie);
+
 app.config(function($routeProvider) {
   $routeProvider
   // .when("/", {
@@ -49,31 +51,33 @@ app.controller('TabController', function($scope){
 
   });
 
-app.controller('MainController', function($scope, $dexieBind){
+app.controller('MainController', function($scope){
    
   
-  console.log($dexieBind);
+
 
    $scope.events = [
     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
-    {foo: 'bar', date: "2016-10-05 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
+    {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   ];
   	
    $scope.OnEvents = OnEvents;
    $scope.OffEvents = OffEvents;
 
  function OnEvents(){
-    console.log("hello!");
+  document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
+  document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
+  document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
+  document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
   }
   function OffEvents(){
-    setTimeout(function () {
-        $scope.$apply(function () {
-            $scope.events = [];
-            console.log($scope.events);
-        });
-    }, 1000);
-    
+   
+  document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
+  document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
+  document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
+  document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
+
   }
 
 

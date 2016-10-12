@@ -17,6 +17,7 @@
     <script src="bower_components/angular-dexie-bind/dist/angular-dexie-bind.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="app.module.js"></script>
+    <script src="views/events.js"></script>
     <script src="views/dayview.module.js"></script>
     <script src="views/monthview.module.js"></script>
     <script src="views/weekview.module.js"></script>
@@ -26,13 +27,15 @@
     <script type="text/javascript" src="bower_components/datepair/dist/datepair.js"></script>
 
    <!--  <script src="views/eventsview.module.js"></script> -->
-    <script src="views/events.js"></script>
+    
 
   </head>
   <body>
+  <div ng-controller="MainController">
      <div ng-include="'main-views/menu.html'"> </div>
 
  <!--  <div ng-include="'main-views/views.html'">  -->
   <div ng-view></div>
+  </div>
   </body>
 </html>

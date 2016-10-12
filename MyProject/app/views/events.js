@@ -1,9 +1,15 @@
+
+$(document).ready(function() {
+window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+}
+
 function idbOK() {
 return "indexedDB" in window;
 }
-
-
-$(document).ready(function() {
 
 if(!idbOK()){
   return console.log("Not suported IndexedDB")
@@ -22,8 +28,8 @@ $(document.body).on('click', '.updBtn', updEvent);
         'format': 'yyyy-mm-dd',
         'autoclose': true
     });
- var basicExampleEl = document.getElementById('datePicker');
- var datepair = new Datepair(basicExampleEl);
+ // var basicExampleEl = document.getElementById('datePicker');
+ // var datepair = new Datepair(basicExampleEl);
 
 
 var db = new Dexie("dexie1");
@@ -31,16 +37,6 @@ db.version(1).stores({
 events:"++id,name,description,startDate,endDate,place"
 });
 db.open();
-
-
-function getAllData(){
-  var allData = [];
-  db.events.each(function(event){
-    allData.push(event);
-  });
-return allData;
-
-}
 
 
 function addEvent(e){
