@@ -1,12 +1,24 @@
 
 $(document).ready(function() {
 window.onload = function () {
+  var url="http://localhost:8000/#/events";
+  $(window).on('hashchange', function(e){
+    if(location.href==url){
+      
+     window.location.reload();
+    }
+});
+
+
     if (! localStorage.justOnce) {
         localStorage.setItem("justOnce", "true");
         window.location.reload();
     }
 }
 window.onload();
+
+
+
 function idbOK() {
 return "indexedDB" in window;
 }
