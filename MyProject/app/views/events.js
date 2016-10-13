@@ -15,7 +15,7 @@ if(!idbOK()){
   return console.log("Not suported IndexedDB")
 }
 
-$("#placeForMessages").html("<div class='alert alert-success' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
+$("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
 
 $("#addEvent").on("click", addEvent);
 $('#clrAllInputs').on("click", clrAllInputs)
@@ -62,7 +62,7 @@ function addEvent(e){
     })
     .catch(function(err) { 
     });
-
+    refreshView();
     $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
 
   }else{
@@ -129,7 +129,7 @@ function clrAllInputs(e){
   var eventID = event.id;
  
   $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left; padding-top: 7px;' id='idEvnt'>" + eventID + "</div>");
-  $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Now you can edit this event!</div>");
+  $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Now you can edit this event!</div>");
     console.log(event);
      }); 
 
@@ -158,6 +158,34 @@ function clrAllInputs(e){
   function todoToHtml(event) {
     return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
+
+   $('#toggle-event').change(function() {
+    var status = $(this).prop('checked');
+      if(status === true){
+        document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
+        document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
+        document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
+        document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
+      }else{
+        document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
+        document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
+        document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
+        document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
+
+      }
+
+           
+    });
+
+    $('#toggle-notify').change(function() {
+    var status = $(this).prop('checked');
+      if(status === true){
+        console.log("Notify On");
+      }else{
+        console.log("Notify Off");
+
+      }
+    });
 // }());
 
 // $dexieBind.bind(db, db.events.toArray(), $scope);

@@ -331,3 +331,6 @@ button:focus { outline:0 !important; }
 .ui-timepicker-wrapper{
   width: 11%;
 }
+
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios .toggle-handle { border-radius: 20px; }
