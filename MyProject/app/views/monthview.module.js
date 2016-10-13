@@ -6,7 +6,7 @@ var app = angular.module('MonthView', [
 
 app.controller('MonthController', function MonthController($scope) {
 	
- 
+  var $ctrl = this;
 
 	$scope.days = [];
 	$scope.events = $scope.events || [];
@@ -77,11 +77,14 @@ app.controller('MonthController', function MonthController($scope) {
     });
 
     function onClick(date, index, domEvent) {
-      if (!date) { return; }
-      $scope.options.defaultDate = date.date;
-      if (date.event.length && $scope.options.eventClick) {
-        $scope.options.eventClick(date, domEvent);
-      }
+
+
+
+      // if (!date) { return; }
+      // $scope.options.defaultDate = date.date;
+      // if (date.event.length && $scope.options.eventClick) {
+      //   $scope.options.eventClick(date, domEvent);
+      // }
       if (!date.event[0]) { return; }
       console.log(date.event[0]);
     }

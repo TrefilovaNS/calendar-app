@@ -22,7 +22,7 @@ app.config(function($routeProvider) {
 app.service('DBFactory', function() {
 
    //Operations with DB here (events.js file in past)
-       $(function () {
+      $(function () {
         window.onload = function () {
         var url="http://localhost:8000/#/events";
         $(window).on('hashchange', function(e){

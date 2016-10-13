@@ -10,7 +10,6 @@
     "angular-mocks": "1.5.x",
     "bootstrap": "3.3.x",
     "moment": "^2.15.1",
-    "NgDexie": "ng-dexie#^0.0.18",
-    "angular-ui-bootstrap": "^2.2.0"
+    "NgDexie": "ng-dexie#^0.0.18"
   }
 }
