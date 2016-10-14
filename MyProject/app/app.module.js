@@ -100,6 +100,7 @@ function addEvent(e){
     .catch(function(err) { 
     });
     refreshView();
+    $rootScope.$broadcast('valueChanged', getAllData());
     $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
 
   }else{
@@ -144,6 +145,7 @@ function clrAllInputs(e){
     var id = e.target.getAttribute('id');
     var intID = parseInt(id);
     db.events.delete(intID).then(refreshView);
+    $rootScope.$broadcast('valueChanged', getAllData());
 
   }
 
