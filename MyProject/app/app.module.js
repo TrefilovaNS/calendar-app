@@ -19,7 +19,22 @@ app.config(function($routeProvider) {
 
 // app.service('$',function(){return $;});
 
-app.service('DBFactory', function() {
+app.factory('DBFactory', function() {
+
+
+function idbOK() {
+return "indexedDB" in window;
+}
+
+if(!idbOK()){
+  return console.log("Not suported IndexedDB")
+}
+
+var db = new Dexie("dexie1");
+db.version(1).stores({
+events:"++id,name,description,startDate,endDate,place"
+});
+db.open();
 
    //Operations with DB here (events.js file in past)
       $(function () {
@@ -42,13 +57,6 @@ window.onload();
 
 
 
-function idbOK() {
-return "indexedDB" in window;
-}
-
-if(!idbOK()){
-  return console.log("Not suported IndexedDB")
-}
 
 $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
 
@@ -69,12 +77,6 @@ $(document.body).on('click', '.updBtn', updEvent);
  var basicExampleEl = document.getElementById('datePicker');
  var datepair = new Datepair(basicExampleEl);
 
-
-var db = new Dexie("dexie1");
-db.version(1).stores({
-events:"++id,name,description,startDate,endDate,place"
-});
-db.open();
 
 
 function addEvent(e){
@@ -225,17 +227,17 @@ function clrAllInputs(e){
   
   });
 
-// function getAllData(){
-//        var allData = [];
-//       db.events.each(function(event){
-//       allData.push(event);
-//    });
-//       return allData;
-//   }
-//      return {
+function getAllData(){
+       var allData = [];
+      db.events.each(function(event){
+      allData.push(event);
+   });
+      return allData;
+  }
+     return {
        
-//     getAllData: getAllData
-//   };
+    getAllData: getAllData
+  };
      // $scope.data = allData;
 
     // $scope.contr = $dexieBind.bind(db, db.events.toArray(), $scope);
@@ -280,8 +282,8 @@ app.controller('MainController', function($scope, $dexieBind,DBFactory){
   
 
 
-// $scope.data = DBFactory.getAllData();
-// console.log($scope.data)
+$scope.data = DBFactory.getAllData();
+console.log($scope.data)
 
 
    $scope.events = [
@@ -289,5 +291,7 @@ app.controller('MainController', function($scope, $dexieBind,DBFactory){
     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   ];
+
+  console.log($scope.events);
  
   });
