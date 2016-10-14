@@ -55,7 +55,7 @@ db.open();
 }
 window.onload();
 
-
+refreshView();
 
 
 $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
@@ -281,7 +281,8 @@ app.controller('MainController', function($scope, DBFactory){
         });
     });
 
-   //  $scope.data = DBFactory.getAllData();
+    $scope.data = DBFactory.getAllData();
+    $scope.events = $scope.data;
    //  console.log($scope.data)
 
    // $scope.$watch('data', function() {    

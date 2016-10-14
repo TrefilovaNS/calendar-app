@@ -9,7 +9,6 @@ bower_components/moment/moment.js
 bower_components/dexie/dist/latest/Dexie.js
 bower_components/jquery/dist/jquery.js
 app.module.js
-views/events.js
 views/dayview.module.js
 views/monthview.module.js
 views/weekview.module.js
