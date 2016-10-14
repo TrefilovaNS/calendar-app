@@ -19,7 +19,7 @@ app.config(function($routeProvider) {
 
 // app.service('$',function(){return $;});
 
-app.factory('DBFactory', function() {
+app.factory('DBFactory', function($rootScope) {
 
 
 function idbOK() {
@@ -115,6 +115,7 @@ function addEvent(e){
   });
 
   clrAllInputs();
+   $rootScope.$broadcast('valueChanged', getAllData());
   }
 
   
@@ -170,7 +171,7 @@ function clrAllInputs(e){
     console.log(event);
      }); 
 
-   
+   window.scrollTo(0, 0);
 
 
 
@@ -234,7 +235,10 @@ function getAllData(){
       obj.name = event.name;
       obj.description = event.description;
       obj.place = event.place;
-      obj.date = event.startDate + ' ' + event.startTime;
+      var startDate = event.startDate + ' ' + event.startTime;
+      obj.date = startDate;
+      var endDate = event.endDate + ' ' + event.endTime;
+      obj.duration = moment.utc(moment(endDate,"YYYY-MM-DD HH:mm").diff(moment(startDate,"YYYY-MM-DD HH:mm"))).format("HH:mm")
 
 
       allData.push(obj);
@@ -263,10 +267,24 @@ app.controller('TabController', function($scope){
 
   });
 
-app.controller('MainController', function($scope, $dexieBind,DBFactory){
+app.controller('MainController', function($scope, DBFactory){
 
-    $scope.data = DBFactory.getAllData();
-    console.log($scope.data)
+
+        $scope.$on('valueChanged', function (evt, getdata) {       
+        $scope.$apply(function() {
+            $scope.data = getdata;
+            $scope.events = $scope.data;
+            console.log($scope.events);
+        $scope.$broadcast('events');
+        });
+    });
+
+   //  $scope.data = DBFactory.getAllData();
+   //  console.log($scope.data)
+
+   // $scope.$watch('data', function() {    
+   //    console.log("hi!");
+
 
   //   $scope.events = [
   //     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
@@ -274,7 +292,7 @@ app.controller('MainController', function($scope, $dexieBind,DBFactory){
   //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   // ];
   
-  $scope.events = $scope.data;
+
   console.log($scope.events);
  
   });
