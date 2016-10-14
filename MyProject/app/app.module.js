@@ -230,7 +230,14 @@ function clrAllInputs(e){
 function getAllData(){
        var allData = [];
       db.events.each(function(event){
-      allData.push(event);
+        var obj = {};
+      obj.name = event.name;
+      obj.description = event.description;
+      obj.place = event.place;
+      obj.date = event.startDate + ' ' + event.startTime;
+
+
+      allData.push(obj);
    });
       return allData;
   }
@@ -238,32 +245,10 @@ function getAllData(){
        
     getAllData: getAllData
   };
-     // $scope.data = allData;
 
-    // $scope.contr = $dexieBind.bind(db, db.events.toArray(), $scope);
-      // console.log(allData);
    
   });
-// app.factory('Factory', function() {
 
-//   $dexieBind.bind(db, db.events, $scope);
-
-  // // private variable
-  // var date = new Date();
-  // // var yearDate = 
-  // var _dataObj = {
-  //   data: date.getFullYear()
-  // }
-
-  // function getYear (){
-  //   return _dataObj.yearDate;
-  // }
-  // return {
-    
-   
-  //   getYear: getYear
-  // };
-  // });
 app.controller('TabController', function($scope){
     this.tab = 1;
 
@@ -279,19 +264,17 @@ app.controller('TabController', function($scope){
   });
 
 app.controller('MainController', function($scope, $dexieBind,DBFactory){
+
+    $scope.data = DBFactory.getAllData();
+    console.log($scope.data)
+
+  //   $scope.events = [
+  //     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
+  //     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
+  //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
+  // ];
   
-
-
-$scope.data = DBFactory.getAllData();
-console.log($scope.data)
-
-
-   $scope.events = [
-    {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
-    {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
-    {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
-  ];
-
+  $scope.events = $scope.data;
   console.log($scope.events);
  
   });
