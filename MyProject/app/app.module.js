@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('calendarApp', ['ngRoute','ngDexieBind','DayView', 'MonthView', 'WeekView','YearView']);
+var app = angular.module('calendarApp', ['ngRoute','DayView', 'MonthView', 'WeekView','YearView']);
 angular.module('calendarApp').constant('dexie', window.Dexie);
 
 app.config(function($routeProvider) {
