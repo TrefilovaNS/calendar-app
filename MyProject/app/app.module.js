@@ -221,6 +221,15 @@ function clrAllInputs(e){
     var status = $(this).prop('checked');
       if(status === true){
         console.log("Notify On");
+        if (!("Notification" in window)) {
+    console.log("This browser does not support desktop notification");
+  }
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification("Hi there!");
+  }else{
+
+  }
       }else{
         console.log("Notify Off");
 
@@ -276,26 +285,21 @@ app.controller('MainController', function($scope, DBFactory){
         $scope.$apply(function() {
             $scope.data = getdata;
             $scope.events = $scope.data;
-            console.log($scope.events);
-        $scope.$broadcast('events');
+            $scope.$broadcast('events');
         });
     });
 
     $scope.data = DBFactory.getAllData();
     $scope.events = $scope.data;
-   //  console.log($scope.data)
 
-   // $scope.$watch('data', function() {    
-   //    console.log("hi!");
+   
 
-
+    // createNotification();
   //   $scope.events = [
   //     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
   //     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
   //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   // ];
-  
-
-  console.log($scope.events);
  
+
   });
