@@ -1,7 +1,8 @@
 <div class="popeye-modal-container">
   <div class="popeye-modal">
     <a class="popeye-close-modal" href ng-click="$close()"></a>
-    <h2>Title</h2>
-    <div>Content {{ctrl.date.event[0]}}</div>
+    <h2>{{name}}</h2>
+    <h3>{{description}}</h3> <h4> at {{ date | date: 'MMM d, hh:mm a'}} in {{place}}    <br>Duration: {{duration}}
+</h4>
   </div>
 </div>

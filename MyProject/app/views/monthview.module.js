@@ -76,32 +76,20 @@ app.controller('MonthController', function MonthController($scope, Popeye) {
 
     function onClick(date, index, domEvent) {
 
-
-     
-    // Open a modal to show the selected user profile
+    
+    // Open a modal to show the selected event
     var modal = Popeye.openModal({
       templateUrl: "views/modalContent.html",
-      controller: "MonthController as ctrl"
-      // resolve: {
-      //   user: function($http) {
-      //     return $http.get("/users/" + userId);
-      //   }
-      // }
+      controller: "DateController",
+      resolve: {
+        clickedEvent: function () {
+          return date.event[0];
+      }
+    }
+      
     });
 
-    // Show a spinner while modal is resolving dependencies
-    // $scope.showLoading = true;
-    // modal.resolved.then(function() {
-    //   $scope.showLoading = false;
-    // });
-
-      // if (!date) { return; }
-      // $scope.options.defaultDate = date.date;
-      // if (date.event.length && $scope.options.eventClick) {
-      //   $scope.options.eventClick(date, domEvent);
-      // }
       if (!date.event[0]) { return; }
-      console.log(date.event[0]);
     }
 
     function bindEvent(date) {
@@ -197,5 +185,14 @@ app.controller('MonthController', function MonthController($scope, Popeye) {
     }
 
 
+
+});
+app.controller('DateController', function DateController($scope, Popeye, $location, clickedEvent) {
+
+$scope.name = clickedEvent.name;
+$scope.description = clickedEvent.description;
+$scope.date = clickedEvent.date;
+$scope.duration = clickedEvent.duration;
+$scope.place = clickedEvent.place;
 
 });
