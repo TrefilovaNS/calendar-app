@@ -1,6 +1,7 @@
-<div class="modal-header">
-  <h1>This is the title</h1>
-</div>'
-<div class="modal-body">
-  Hi, I'm a modal!
+<div class="popeye-modal-container">
+  <div class="popeye-modal">
+    <a class="popeye-close-modal" href ng-click="$close()"></a>
+    <h2>Title</h2>
+    <div>Content {{ctrl.date.event[0]}}</div>
+  </div>
 </div>

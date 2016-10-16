@@ -44,6 +44,7 @@ db.open();
         if(location.href==url){
 
           window.location.reload();
+
     }
 });
 
@@ -292,21 +293,25 @@ app.controller('NotifyController', function($scope, $timeout){
     $(function () {
       
       //For first init
-         if($('#toggle-notify').prop('checked') === true){
-              checkToday();
+       $scope.$watch('events', function() {
+        if($('#toggle-notify').prop('checked') === true){
+             checkToday();
               checkTomorrow();
          }
-
-
-          $('#toggle-notify').change(function() {
-            var status = $('#toggle-notify').prop('checked');
-            if(status === true){
-              $scope.$watch('events', function() {
-              checkToday();
-              checkTomorrow();
+              
             });
-            }
-          });
+         
+
+
+          // $('#toggle-notify').change(function() {
+          //   var status = $('#toggle-notify').prop('checked');
+          //   if(status === true){
+          //     $scope.$watch('events', function() {
+          //     checkToday();
+          //     checkTomorrow();
+          //   });
+          //   }
+          // });
 
         });
       // $('#toggle-notify').change(function() {

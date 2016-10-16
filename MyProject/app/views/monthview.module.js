@@ -1,10 +1,8 @@
 'use strict';
 
-var app = angular.module('MonthView', [
+var app = angular.module('MonthView', ['pathgather.popeye']);
 
-]);
-
-app.controller('MonthController', function MonthController($scope) {
+app.controller('MonthController', function MonthController($scope, Popeye) {
 	
   var $ctrl = this;
 
@@ -79,6 +77,23 @@ app.controller('MonthController', function MonthController($scope) {
     function onClick(date, index, domEvent) {
 
 
+     
+    // Open a modal to show the selected user profile
+    var modal = Popeye.openModal({
+      templateUrl: "views/modalContent.html",
+      controller: "MonthController as ctrl"
+      // resolve: {
+      //   user: function($http) {
+      //     return $http.get("/users/" + userId);
+      //   }
+      // }
+    });
+
+    // Show a spinner while modal is resolving dependencies
+    // $scope.showLoading = true;
+    // modal.resolved.then(function() {
+    //   $scope.showLoading = false;
+    // });
 
       // if (!date) { return; }
       // $scope.options.defaultDate = date.date;

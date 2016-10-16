@@ -335,3 +335,7 @@ button:focus { outline:0 !important; }
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
   .toggle.ios .toggle-handle { border-radius: 20px; }
+
+.popeye-modal-container{
+  background-color: rgba(100, 91, 75, 0.7);
+}

@@ -1,6 +1,7 @@
 CACHE MANIFEST
 bower_components/jquery-timepicker/jquery.timepicker.css
 bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css
+bower_components/angular-popeye/release/popeye.css
 app.css
 bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css
 bower_components/angular/angular.js
@@ -17,6 +18,7 @@ bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js
 bower_components/jquery-timepicker/jquery.timepicker.js
 bower_components/datepair/dist/datepair.js
 bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js
+bower_components/angular-popeye/release/popeye.js
 
 NETWORK:
 *
