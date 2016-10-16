@@ -217,24 +217,6 @@ function clrAllInputs(e){
            
     });
 
-    $('#toggle-notify').change(function() {
-    var status = $(this).prop('checked');
-      if(status === true){
-        console.log("Notify On");
-        if (!("Notification" in window)) {
-    console.log("This browser does not support desktop notification");
-  }
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var notification = new Notification("Hi there!");
-  }else{
-
-  }
-      }else{
-        console.log("Notify Off");
-
-      }
-    });
 
   
   });
@@ -292,14 +274,149 @@ app.controller('MainController', function($scope, DBFactory){
     $scope.data = DBFactory.getAllData();
     $scope.events = $scope.data;
 
-   
 
-    // createNotification();
+  
   //   $scope.events = [
   //     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
   //     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
   //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   // ];
  
+
+  });
+
+app.controller('NotifyController', function($scope, $timeout){
+
+   
+    
+    $(function () {
+      
+      //For first init
+         if($('#toggle-notify').prop('checked') === true){
+              checkToday();
+              checkTomorrow();
+         }
+
+
+          $('#toggle-notify').change(function() {
+            var status = $('#toggle-notify').prop('checked');
+            if(status === true){
+              $scope.$watch('events', function() {
+              checkToday();
+              checkTomorrow();
+            });
+            }
+          });
+
+        });
+      // $('#toggle-notify').change(function() {
+      // var status = $(this).prop('checked');
+      //   if(status === true){
+      //     console.log("Notify On");
+         
+    
+      //   }else{
+      //     console.log("Notify Off");
+
+      //   }
+      // });
+
+   
+   //Set notifications
+   function notifyOn(name, description, date, place){
+
+   if (!("Notification" in window)) {
+    console.log("This browser does not support desktop notification");
+  }
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var date = new Date(date);
+     var options = {
+      body: description + ' at ' + moment(date).format('HH:mm') + ' in ' + place,
+      icon: 'img/calendar.png',
+  }
+    var notification = new Notification(name,options);
+    setTimeout(notification.close.bind(notification), 4000); 
+   }else{
+    console.log('Cant create notification');
+   }
+
+ };
+       
+  
+  
+
+       //Проверка на сегодняшний день
+      function checkToday(){
+        $timeout(function() {
+         var currentFullDate = new Date();
+         var currentYear = currentFullDate.getFullYear();
+         var currentMonth = currentFullDate.getMonth() + 1;
+         var currentDay = currentFullDate.getDate();
+         var currentHour = currentFullDate.getHours();
+         var currentMinutes = currentFullDate.getMinutes();
+         
+         var events = $scope.events;
+         var result = events.map(function(a) {
+          
+          var date = new Date(a.date);
+          var dYear = date.getFullYear();
+          var dMonth = date.getMonth() + 1;
+          var dDay = date.getDate();
+          var dHour = date.getHours();
+          var dMinutes = date.getMinutes();
+
+          if(dYear == currentYear 
+            && currentMonth == dMonth 
+            && currentDay == dDay){
+              if(!(currentHour < dHour)){
+                if(currentHour == dHour && currentMinutes > dMinutes){}
+              }else{
+              var name = "Today " + a.name;
+              notifyOn(name, a.description, a.date, a.place);
+              }
+            
+          }
+          
+        });
+       
+        }, 1000);
+      }
+       //Для завтрашнего события
+       function checkTomorrow(){
+        $timeout(function() {
+          var date  = moment(new Date()).add(1,'days');
+          var tomorrow = date._d;
+          tomorrow.setHours(0,0,0);
+          
+         var tomYear = tomorrow.getFullYear();
+         var tomMonth = tomorrow.getMonth() + 1;
+         var tomDay = tomorrow.getDate();
+         var tomHour = tomorrow.getHours();
+         
+         
+         var events = $scope.events;
+         var result = events.map(function(a) {
+          
+          var date = new Date(a.date);
+          var dYear = date.getFullYear();
+          var dMonth = date.getMonth() + 1;
+          var dDay = date.getDate();
+          var dHour = date.getHours();
+          
+          if(dYear == tomYear 
+            && tomMonth == dMonth 
+            && tomDay == dDay){
+            var name = "Tomorrow " + a.name;
+             notifyOn(name, a.description, a.date, a.place);
+          }
+          
+        });
+       
+        }, 1000);
+       }
+      
+       
+
 
   });

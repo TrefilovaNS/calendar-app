@@ -9,13 +9,12 @@
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
     <link rel="stylesheet" href="app.css" />
     <link href="bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <link href="bower_components/angular-notifications/notification.css" rel="stylesheet">
+
     
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/dexie/dist/latest/Dexie.js"></script>
-    <script src="bower_components/angular-notifications/notification.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="app.module.js"></script>
     <script src="views/dayview.module.js"></script>
@@ -33,8 +32,9 @@
   </head>
   <body>
   <div ng-controller="MainController">
+  <div ng-controller="NotifyController">
      <div ng-include="'main-views/menu.html'"> </div>
-
+  </div>
  <!--  <div ng-include="'main-views/views.html'">  -->
   <div ng-view></div>
   </div>
