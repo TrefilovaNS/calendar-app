@@ -261,7 +261,7 @@ app.controller('TabController', function($scope){
 
   });
 
-app.controller('MainController', function($scope, DBFactory){
+app.controller('MainController', function($scope, DBFactory, $http){
 
 
         $scope.$on('valueChanged', function (evt, getdata) {       
@@ -282,7 +282,26 @@ app.controller('MainController', function($scope, DBFactory){
   //     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
   //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
   // ];
- 
+
+
+  // Scopes for holidays
+  $scope.url = "http://kayaposoft.com/enrico/json/v1.0?action=getPublicHolidaysForYear&year=2016&country=rus&region=";
+  $scope.newMessage = "";
+  $scope.messages = []; 
+  //Get holidays
+  $http({
+  method: 'GET',
+  url: "http://kayaposoft.com/enrico/json/v1.0?action=getPublicHolidaysForYear&year=2016&country=rus&region=",
+  headers:{
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
+                'X-Random-Shit':'123123123'}
+}).then(function(response) {
+            $scope.newMessage = response.data.queries.request.totalResults;
+            $scope.messages.push($scope.newMessage);
+  });
+  console.log($scope.messages);
 
   });
 
@@ -292,7 +311,7 @@ app.controller('NotifyController', function($scope, $timeout){
     
     $(function () {
       
-      //For first init
+      //For first init and if events changes
        $scope.$watch('events', function() {
         if($('#toggle-notify').prop('checked') === true){
              checkToday();
@@ -302,16 +321,16 @@ app.controller('NotifyController', function($scope, $timeout){
             });
          
 
-
-          // $('#toggle-notify').change(function() {
-          //   var status = $('#toggle-notify').prop('checked');
-          //   if(status === true){
-          //     $scope.$watch('events', function() {
-          //     checkToday();
-          //     checkTomorrow();
-          //   });
-          //   }
-          // });
+       //For every true status - send notifications
+          $('#toggle-notify').change(function() {
+            var status = $('#toggle-notify').prop('checked');
+            if(status === true){
+             
+              checkToday();
+              checkTomorrow();
+            
+            }
+          });
 
         });
       // $('#toggle-notify').change(function() {
