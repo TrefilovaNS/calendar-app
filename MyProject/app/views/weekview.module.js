@@ -4,7 +4,7 @@ var app = angular.module('WeekView', [
 
 ]);
 
-app.controller('WeekController', function WeekController($scope) {
+app.controller('WeekController', function WeekController($scope, Popeye) {
 		
 		$scope.options = $scope.options || {};
 		$scope.options.defaultDate = new Date();
@@ -158,12 +158,21 @@ function calculateSelectedDate() {
       
 
   function onClick(date, domEvent) {
+       // Open a modal to show the selected event
+      var modal = Popeye.openModal({
+      templateUrl: "views/modalContent.html",
+      controller: "DateController",
+      resolve: {
+        clickedEvent: function () {
+          return date.event[0];
+      }
+    }
+      
+    });
+
       if (!date.event[0]) { return; }
-      // $scope.options.defaultDate = date.date;
-      // if (date.event.length && $scope.options.eventClick) {
-      //   $scope.options.eventClick(date, domEvent);
-      // }
-      console.log(date.event[0]);
+   
+    
     }
 
   function bindEvent(date) {
@@ -178,4 +187,13 @@ function calculateSelectedDate() {
         }
       });
     }
+});
+app.controller('DateController', function DateController($scope, Popeye, $location, clickedEvent) {
+
+$scope.name = clickedEvent.name;
+$scope.description = clickedEvent.description;
+$scope.date = clickedEvent.date;
+$scope.duration = clickedEvent.duration;
+$scope.place = clickedEvent.place;
+
 });

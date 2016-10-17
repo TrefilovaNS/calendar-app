@@ -333,20 +333,28 @@ app.controller('NotifyController', function($scope, $timeout){
    if (!("Notification" in window)) {
     console.log("This browser does not support desktop notification");
   }
-  else if (Notification.permission === "granted") {
+  Notification.requestPermission().then(function(result) {
+  if (result === 'denied') {
+    console.log('Permission wasn\'t granted. Allow a retry.');
+    return;
+  }
+  if (result === 'default') {
+    console.log('The permission request was dismissed.');
+    return;
+  }
     // If it's okay let's create a notification
-    var date = new Date(date);
+    var eDate = new Date(date);
      var options = {
-      body: description + ' at ' + moment(date).format('HH:mm') + ' in ' + place,
+      body: description + ' at ' + moment(eDate).format('HH:mm') + ' in ' + place,
       icon: 'img/calendar.png',
   }
     var notification = new Notification(name,options);
     setTimeout(notification.close.bind(notification), 4000); 
-   }else{
-    console.log('Cant create notification');
-   }
+   
 
- };
+ });
+
+};
        
   
   
