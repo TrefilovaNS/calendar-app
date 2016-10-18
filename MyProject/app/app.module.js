@@ -284,24 +284,55 @@ app.controller('MainController', function($scope, DBFactory, $http){
   // ];
 
 
+
   // Scopes for holidays
-  $scope.url = "http://kayaposoft.com/enrico/json/v1.0?action=getPublicHolidaysForYear&year=2016&country=rus&region=";
-  $scope.newMessage = "";
-  $scope.messages = []; 
+  var url = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus&?callback=JSON_CALLBACK";
+  // $scope.newMessage = "";
+  // $scope.messages = []; 
+
+  $http.jsonp(url)
+    .success(function(data){
+        console.log('Hi');
+    })
+    .error(function(data){
+        console.log('Not');
+    });
+
+
+
   //Get holidays
-  $http({
-  method: 'GET',
-  url: "http://kayaposoft.com/enrico/json/v1.0?action=getPublicHolidaysForYear&year=2016&country=rus&region=",
-  headers:{
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
-                'X-Random-Shit':'123123123'}
-}).then(function(response) {
-            $scope.newMessage = response.data.queries.request.totalResults;
-            $scope.messages.push($scope.newMessage);
-  });
-  console.log($scope.messages);
+//   $http({
+//   method: 'JSONP',
+//   url: "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus&jsonp=myfunction",
+//   headers:{
+//                 'Access-Control-Allow-Origin': '*',
+//                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+//                 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
+//                 'X-Random-Shit':'123123123',
+//                 'Access-Control-Allow-Headers': ' Content-Type, Content-Range, Content-Disposition, Content-Description',
+//                 'Content-Type': 'application/javascript;charset=UTF-8',
+//                 'Access-Control-Max-Age': '1728000'
+//               }
+// }).then(function(response) {
+//             myfunction(response)
+//             // $scope.messages.push($scope.newMessage);
+//   });
+
+
+//   var enricoJsonUrl = "proxy.php";
+
+// function getPublicHolidaysForMonth(month, year, country, region, callback) {
+//   var jqxhr = $.getJSON(enricoJsonUrl,
+//     {
+//       action: "getPublicHolidaysForMonth",
+//       month: month,
+//       year: year,
+//       country: country,
+//       region: region
+//     },
+//     callback)
+//     .error(function() { alert("Unknown error"); });
+// }
 
   });
 
