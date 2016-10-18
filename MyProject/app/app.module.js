@@ -217,6 +217,7 @@ function clrAllInputs(e){
 
 });
 
+
     //   //Holidays here
     //   $.getJSON("http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=2016&country=rus&region=", function(holiday){
 
@@ -267,7 +268,34 @@ app.controller('TabController', function($scope){
 
   });
 
-app.controller('MainController', function($scope, DBFactory, $http){
+app.factory('Holidays', function($http) {
+       
+       function getHolidays() {
+  
+  var url="http://localhost:8000/holidays.json"
+
+  $http({
+    method: 'GET',
+    url: url    
+  }).success(function(data, status, headers, config){
+        console.log(data);
+    })
+    .error(function(data, status, headers, config){
+         console.log("not " + status);
+    });
+    // return hData;
+
+     } 
+
+     return {
+       
+    getHolidays: getHolidays
+  };
+
+  
+     });
+
+app.controller('MainController', function($scope, DBFactory, Holidays, $http){
 
 
         $scope.$on('valueChanged', function (evt, getdata) {       
@@ -281,76 +309,16 @@ app.controller('MainController', function($scope, DBFactory, $http){
     $scope.data = DBFactory.getAllData();
     $scope.events = $scope.data;
 
-
-  
-  //   $scope.events = [
-  //     {foo: 'bar', date: "2016-10-03 13:40", name:"Event Two", description:'Coming soon!', duration:'3 hours'}, //value of eventClass will be added to CSS class of the day element
-  //     {foo: 'bar', date: "2016-09-30 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'},
-  //     {foo: 'bar', date: "2016-10-15 21:07", name:"Event One", description:'Challenge!', duration:'2 hours'}
-  // ];
+    $scope.holidays = Holidays.getHolidays();
+    // console.log($scope.holidays);
 
 
 
 
-
-
-
-
-
-
-
-// function jsonp_callback(data) {
-
-//     console.log(data.found);
-// }
-  // Scopes for holidays
- 
-  // $scope.newMessage = "";
-  // $scope.messages = []; 
   // var link = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus";
   //  var url = link + "&jsonp=";
 
-  //  // var url=""
-
-  // $http.jsonp(url)
-  //   .success(function(data){
-  //       console.log(data);
-  //   })
-  //   .error(function(data, status, headers, config){
-  //       console.log('Not');
-  //   });
-
-
-
-//   //Get holidays
-//   $http({
-//   method: 'JSONP',
-//   url: "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus&jsonp=myfunction",
-//   headers:{
-                
-//                 'Content-Type': 'application/javascript;charset=UTF-8'
-                
-//               }
-// }).success(function(data) {
-//             myfunction(response)
-//             // $scope.messages.push($scope.newMessage);
-//   });
-
-
-//   var enricoJsonUrl = "proxy.php";
-
-// function getPublicHolidaysForMonth(month, year, country, region, callback) {
-//   var jqxhr = $.getJSON(enricoJsonUrl,
-//     {
-//       action: "getPublicHolidaysForMonth",
-//       month: month,
-//       year: year,
-//       country: country,
-//       region: region
-//     },
-//     callback)
-//     .error(function() { alert("Unknown error"); });
-// }
+   
 
   });
 
