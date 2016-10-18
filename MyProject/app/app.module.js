@@ -215,10 +215,16 @@ function clrAllInputs(e){
 
       }
 
-           
-    });
+});
 
+    //   //Holidays here
+    //   $.getJSON("http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=2016&country=rus&region=", function(holiday){
 
+    //   $.each(holiday, function(key,value){
+    //     console.log(key,value)
+    //  });
+    // });
+    
   
   });
 
@@ -285,35 +291,47 @@ app.controller('MainController', function($scope, DBFactory, $http){
 
 
 
+
+
+
+
+
+
+
+
+// function jsonp_callback(data) {
+
+//     console.log(data.found);
+// }
   // Scopes for holidays
-  var url = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus&?callback=JSON_CALLBACK";
+ 
   // $scope.newMessage = "";
   // $scope.messages = []; 
+  // var link = "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus";
+  //  var url = link + "&jsonp=";
 
-  $http.jsonp(url)
-    .success(function(data){
-        console.log('Hi');
-    })
-    .error(function(data){
-        console.log('Not');
-    });
+  //  // var url=""
+
+  // $http.jsonp(url)
+  //   .success(function(data){
+  //       console.log(data);
+  //   })
+  //   .error(function(data, status, headers, config){
+  //       console.log('Not');
+  //   });
 
 
 
-  //Get holidays
+//   //Get holidays
 //   $http({
 //   method: 'JSONP',
 //   url: "http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&month=1&year=2016&country=rus&jsonp=myfunction",
 //   headers:{
-//                 'Access-Control-Allow-Origin': '*',
-//                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-//                 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
-//                 'X-Random-Shit':'123123123',
-//                 'Access-Control-Allow-Headers': ' Content-Type, Content-Range, Content-Disposition, Content-Description',
-//                 'Content-Type': 'application/javascript;charset=UTF-8',
-//                 'Access-Control-Max-Age': '1728000'
+                
+//                 'Content-Type': 'application/javascript;charset=UTF-8'
+                
 //               }
-// }).then(function(response) {
+// }).success(function(data) {
 //             myfunction(response)
 //             // $scope.messages.push($scope.newMessage);
 //   });
