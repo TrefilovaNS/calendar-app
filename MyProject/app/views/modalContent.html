@@ -2,7 +2,7 @@
   <div class="popeye-modal">
     <a class="popeye-close-modal" href ng-click="$close()"></a>
     <h2>{{name}}</h2>
-    <h3>{{description}}</h3> <h4> at {{ date | date: 'MMM d, hh:mm a'}} in {{place}}    <br>Duration: {{duration}}
+    <h3>{{description}}</h3> <h4> at {{ date | date: 'MMM d, hh:mm a'}} <span ng-show="place">in {{place}}</span>    <br>Duration: {{duration}}
 </h4>
   </div>
 </div>

@@ -180,6 +180,19 @@ function clrAllInputs(e){
 
   }
 
+
+
+
+    //   //Holidays here
+    //   $.getJSON("http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=2016&country=rus&region=", function(holiday){
+
+    //   $.each(holiday, function(key,value){
+    //     console.log(key,value)
+    //  });
+    // });
+    
+  
+  });
   function refreshView() {
     return db.events.toArray()
       .then(renderAllEvents);
@@ -191,7 +204,11 @@ function clrAllInputs(e){
     events.forEach(function(event) {
       html += todoToHtml(event);
     });
-    $("#list").html(html);
+    $(function () {
+
+      $("#list").html(html);
+
+    });
     
     console.log('In render');
   }
@@ -199,6 +216,7 @@ function clrAllInputs(e){
   function todoToHtml(event) {
     return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
+$(function () {
 
    $('#toggle-event').change(function() {
     var status = $(this).prop('checked');
@@ -215,19 +233,43 @@ function clrAllInputs(e){
 
       }
 
+
 });
 
+ });
 
-    //   //Holidays here
-    //   $.getJSON("http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForYear&year=2016&country=rus&region=", function(holiday){
 
-    //   $.each(holiday, function(key,value){
-    //     console.log(key,value)
-    //  });
-    // });
-    
-  
+function addHolidaysToDB(holidays){
+  // $(function () {
+
+      var unformatHolidays = holidays;
+      unformatHolidays.forEach(function(holiday) {
+      return db.events.add(
+      { name: holiday.englishName, 
+        description: "Holiday", 
+        startDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
+        startTime: "00:00", 
+        endDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
+        endTime: "23:59", 
+        place: ""}
+      ).then(refreshView)
+      .then(function() {
+      $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your holidays successfully added! See your events in <a href='#views'>Calendar</a></div>");
+      $rootScope.$broadcast('valueChanged', getAllData());
+      })      
+      .catch(function(err) {
+      });
+
+
+
+      // var events = $scope.events;
+      // events.push(holidays);
+
+      
+
+// });
   });
+}
 
 function getAllData(){
        var allData = [];
@@ -247,7 +289,7 @@ function getAllData(){
       return allData;
   }
      return {
-       
+    addHolidaysToDB: addHolidaysToDB,
     getAllData: getAllData
   };
 
@@ -287,6 +329,9 @@ app.factory('Holidays', function($http) {
    
 
     };
+
+
+
      return {
        
     getHolidays: getHolidays
@@ -295,6 +340,7 @@ app.factory('Holidays', function($http) {
 
   
      });
+
 
 app.controller('MainController', function($scope, DBFactory, Holidays, $http){
     
@@ -322,25 +368,23 @@ app.controller('MainController', function($scope, DBFactory, Holidays, $http){
 
       // console.log($scope.holidays);
       var unformatHolidays = $scope.holidays;
-      var holidays = [];
-      unformatHolidays.forEach(function(holiday) {
-      holidays = {
-        date: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day + " 00:00",
-        name: holiday.englishName,
-        description: "Holiday",
-        duration: "all day"
-      }
-      var events = $scope.events;
-      events.push(holidays);
-      
+      // var holidays = [];
+      //Add holidays to db
+      DBFactory.addHolidaysToDB(unformatHolidays);
+
 
 });
+    };
 
-});
-      $(function () {
-           $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Holidays successfully added</div>");
-});
-            $scope.$broadcast('events');
+
+      // $(function () {
+        
+      //   $rootScope.$broadcast('valueChanged', getAllData());
+      //   $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Holidays successfully added!</div>");
+
+//          
+// });
+//             $scope.$broadcast('events');
        
       
    
@@ -350,7 +394,7 @@ app.controller('MainController', function($scope, DBFactory, Holidays, $http){
     //       window.location.reload();
 
     // }
-    }
+    // }
 
   
     // $scope.holidays = Holidays.getHolidays();
