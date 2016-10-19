@@ -270,33 +270,34 @@ app.controller('TabController', function($scope){
 
 app.factory('Holidays', function($http) {
        
-       function getHolidays() {
+       function getHolidays(year) {
   
-  var url="http://localhost:8000/holidays.json"
-
-  $http({
+  var url="http://localhost:8000/holidays/holidays" + year + ".json"
+  
+  return $http({
     method: 'GET',
     url: url    
-  }).success(function(data, status, headers, config){
-        console.log(data);
+  }).success(function(data){
+        return data;
     })
     .error(function(data, status, headers, config){
-         console.log("not " + status);
+         console.log("Denied: " + status);
     });
     // return hData;
+   
 
-     } 
-
+    };
      return {
        
     getHolidays: getHolidays
   };
 
+
   
      });
 
 app.controller('MainController', function($scope, DBFactory, Holidays, $http){
-
+    
 
         $scope.$on('valueChanged', function (evt, getdata) {       
         $scope.$apply(function() {
@@ -308,8 +309,51 @@ app.controller('MainController', function($scope, DBFactory, Holidays, $http){
 
     $scope.data = DBFactory.getAllData();
     $scope.events = $scope.data;
+ 
 
-    $scope.holidays = Holidays.getHolidays();
+    //Holidays
+
+    $scope.holidaysClick = holidaysClick;
+    $scope.yearsForHolidays = ['2016','2017','2018'];
+
+    function holidaysClick(year){
+      Holidays.getHolidays(year).then(function (holiday) {
+      $scope.holidays = holiday.data;
+
+      // console.log($scope.holidays);
+      var unformatHolidays = $scope.holidays;
+      var holidays = [];
+      unformatHolidays.forEach(function(holiday) {
+      holidays = {
+        date: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day + " 00:00",
+        name: holiday.englishName,
+        description: "Holiday",
+        duration: "all day"
+      }
+      var events = $scope.events;
+      events.push(holidays);
+      
+
+});
+
+});
+      $(function () {
+           $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Holidays successfully added</div>");
+});
+            $scope.$broadcast('events');
+       
+      
+   
+    //    var url="http://localhost:8000/#/views"
+    //     if(location.href==url){
+
+    //       window.location.reload();
+
+    // }
+    }
+
+  
+    // $scope.holidays = Holidays.getHolidays();
     // console.log($scope.holidays);
 
 

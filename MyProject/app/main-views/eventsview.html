@@ -1,7 +1,18 @@
-
-    <div align="center">
-
-
+ <div class="btn-group" role="group" >
+ <label>Additions: </label>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Fetch holidays for
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li ng-repeat="year in yearsForHolidays"><a ng-click="holidaysClick(year)">{{year}}</a></li>
+            </ul>
+          </div>
+   
+        </div>
+<br><br>
+<div align="center">
 <form class="form-horizontal">
 	<div id="placeForMessages" style="width:60%;"></div>
 	<div class="form-group" style="width:60%;" id="for-date">
