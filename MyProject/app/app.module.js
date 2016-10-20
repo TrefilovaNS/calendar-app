@@ -97,7 +97,7 @@ app.factory('DBFactory', function($rootScope) {
     .catch(function(err) { 
     });
     refreshView();
-    $rootScope.$broadcast('valueChanged', getAllData());
+    $rootScope.$broadcast('valueChanged');
     $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
 
   }else{
@@ -113,7 +113,8 @@ app.factory('DBFactory', function($rootScope) {
       });
 
       clrAllInputs();
-      $rootScope.$broadcast('valueChanged', getAllData());
+      $rootScope.$broadcast('valueChanged');
+
     }
 
 
@@ -142,7 +143,7 @@ app.factory('DBFactory', function($rootScope) {
     var id = e.target.getAttribute('id');
     var intID = parseInt(id);
     db.events.delete(intID).then(refreshView);
-    $rootScope.$broadcast('valueChanged', getAllData());
+    $rootScope.$broadcast('valueChanged');
 
   }
 
@@ -269,7 +270,7 @@ app.factory('DBFactory', function($rootScope) {
           ).then(refreshView)
       .then(function() {
         $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your holidays successfully added! See your events in <a href='#views'>Calendar</a></div>");
-        $rootScope.$broadcast('valueChanged', getAllData());
+        $rootScope.$broadcast('valueChanged');
       })      
       .catch(function(err) {
       });
@@ -350,18 +351,21 @@ return {
 
 
 app.controller('MainController', function($scope, DBFactory, Holidays, $http){
+// $scope.events = [{name: "hi", date:'2016-10-27 00:00'}];
+// console.log($scope.events);
 
-
-  $scope.$on('valueChanged', function (evt, getdata) {       
+  $scope.$on('valueChanged', function() {       
     $scope.$apply(function() {
-      $scope.data = getdata;
-      $scope.events = $scope.data;
+      addEvents();
       $scope.$broadcast('events');
     });
   });
 
+function addEvents(){
   $scope.data = DBFactory.getAllData();
   $scope.events = $scope.data;
+}
+  addEvents();
 
 
 
