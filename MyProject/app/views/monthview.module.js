@@ -76,8 +76,9 @@ app.controller('MonthController', function MonthController($scope, Popeye) {
 
     function onClick(date, index, domEvent) {
 
-    
-    // Open a modal to show the selected event
+    if (!date.event[0]) { return; 
+      }else{
+          // Open a modal to show the selected event
     var modal = Popeye.openModal({
       templateUrl: "views/modalContent.html",
       controller: "DateController",
@@ -89,9 +90,8 @@ app.controller('MonthController', function MonthController($scope, Popeye) {
       
     });
 
-      if (!date.event[0]) { return; }
     }
-
+}
     function bindEvent(date) {
       if (!date || !$scope.mappedEvents) { return; }
       date.event = [];

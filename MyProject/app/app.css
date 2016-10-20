@@ -334,6 +334,11 @@ button:focus { outline:0 !important; }
   bottom:10px;
   margin-left:-3px;
 }
+
+.flex-calendar .days .day.event.hidden:before {
+ display: none;
+}
+
 .ui-timepicker-wrapper{
   width: 11%;
 }

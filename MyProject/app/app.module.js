@@ -35,6 +35,7 @@ app.factory('DBFactory', function($rootScope) {
    $(function () {
     window.onload = function () {
       var url="http://localhost:8000/#/events";
+
       $(window).on('hashchange', function(e){
         if(location.href==url){
 
@@ -202,19 +203,49 @@ app.factory('DBFactory', function($rootScope) {
   }
   $(function () {
 
+  
+
    $('#toggle-event').change(function() {
+
+        //For css rules
+    var customCSSRule = function(style, element, rules){
+     if("addRule" in style) {
+        style.addRule(element, rules);
+     } else if("insertRule" in style) {
+        style.insertRule(element + "{" + rules + "}",0);
+     }
+  };
+
+
     var status = $(this).prop('checked');
     if(status === true){
-      document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
-      document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
-      document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
-      document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
+      //For IE
+      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
+      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
+      // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
+      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: inline;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day:not(.disabled):not(.out)", "cursor: pointer; pointer-events: visible;");
+      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: inline;");
+      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: inline;");
+      //For FF
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: inline;}",0); 
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: pointer; pointer-events: visible;}",0); 
     }else{
-      document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
-      document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
-      document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
-      document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
+      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
+      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
+      // document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
+      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
+      //Custom
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: none;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day:not(.disabled):not(.out)", "cursor: default; pointer-events: none;");
+      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: none;");
+      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: none;");
 
+
+      //For FF
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: none;}",0); 
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: default; pointer-events: none;}",0); 
     }
 
 
