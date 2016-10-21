@@ -226,7 +226,7 @@ app.factory('DBFactory', function($rootScope) {
       // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
       // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: inline;");
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day:not(.disabled):not(.out)", "cursor: pointer; pointer-events: visible;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: pointer; pointer-events: visible;");
       customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: inline;");
       customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: inline;");
       //For FF
@@ -239,7 +239,7 @@ app.factory('DBFactory', function($rootScope) {
       // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
       //Custom
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: none;");
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day:not(.disabled):not(.out)", "cursor: default; pointer-events: none;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: default; pointer-events: none;");
       customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: none;");
       customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: none;");
 

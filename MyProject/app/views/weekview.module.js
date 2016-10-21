@@ -158,8 +158,12 @@ function calculateSelectedDate() {
       
 
   function onClick(date, domEvent) {
-       // Open a modal to show the selected event
-      var modal = Popeye.openModal({
+      
+    if(!date){ return; 
+    }else if (!date.event[0]) { return; 
+      }else{
+          // Open a modal to show the selected event
+    var modal = Popeye.openModal({
       templateUrl: "views/modalContent.html",
       controller: "DateController",
       resolve: {
@@ -170,8 +174,9 @@ function calculateSelectedDate() {
       
     });
 
-      if (!date.event[0]) { return; }
    
+
+    }
     
     }
 
