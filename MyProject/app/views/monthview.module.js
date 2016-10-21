@@ -31,8 +31,17 @@ app.controller('MonthController', function MonthController($scope, Popeye) {
     function createMappedEvents(){
       $scope.mappedEvents = $scope.events.map(function(obj)
       {
-        obj.date = new Date(obj.date);
-        return obj;
+        if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)))
+        {
+          
+          var formatted = moment(obj.date, 'YYYY-MM-DD HH:ss').format('YYYY/MM/DD HH:ss') + ":00";
+          obj.date = new Date(formatted);
+          return obj;
+        }else{
+          obj.date = new Date(obj.date);
+          return obj;  
+        }
+        
       });
     }
 

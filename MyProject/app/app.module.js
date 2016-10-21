@@ -351,7 +351,8 @@ return {
 
 
 app.controller('MainController', function($scope, DBFactory, Holidays, $http){
-// $scope.events = [{name: "hi", date:'2016-10-27 00:00'}];
+// $scope.events = [{name: "hi", date:"2016-10-31 00:00", duration:"01:00"},
+// {name: "hi99", date:"2016-10-28 13:00", duration:"01:00"}];
 // console.log($scope.events);
 
   $scope.$on('valueChanged', function() {       
@@ -364,9 +365,9 @@ app.controller('MainController', function($scope, DBFactory, Holidays, $http){
 function addEvents(){
   $scope.data = DBFactory.getAllData();
   $scope.events = $scope.data;
+
 }
   addEvents();
-
 
 
     //Holidays
