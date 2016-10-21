@@ -412,9 +412,13 @@ app.controller('NotifyController', function($scope, $timeout){
        $('#toggle-notify').change(function() {
         var status = $('#toggle-notify').prop('checked');
         if(status === true){
-
+          if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        }else{
           checkToday();
           checkTomorrow();
+        }
+          
 
         }
       });
