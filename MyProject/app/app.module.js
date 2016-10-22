@@ -54,9 +54,17 @@ app.factory('DBFactory', function($rootScope) {
 
     refreshView();
 
+    
 
+});
+
+
+  function start(){
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
+    
 
+
+    
     $("#addEvent").on("click", addEvent);
     $('#clrAllInputs').on("click", clrAllInputs)
     $(document.body).on('click', '.dltBtn', dltEvent); 
@@ -73,8 +81,60 @@ app.factory('DBFactory', function($rootScope) {
     });
  // var basicExampleEl = document.getElementById('datePicker');
  // var datepair = new Datepair(basicExampleEl);
- $ ('#datePicker').datepair();
+ $('#datePicker').datepair();
+ //toggle
 
+  $('#toggle-event').bootstrapToggle();
+  $('#toggle-notify').bootstrapToggle();
+
+
+  $('#toggle-event').change(function() {
+
+        //For css rules
+    var customCSSRule = function(style, element, cssclass){
+     if("addRule" in style) {
+        style.addRule(element, rules);
+     } else if("insertRule" in style) {
+      var element = element;
+      var cssclass = cssclass;
+        $(element).addClass(cssclass);
+     }
+  };
+
+
+    var status = $(this).prop('checked');
+    if(status === true){
+      //For IE
+      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
+      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
+      // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
+      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display");
+      // customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: pointer; pointer-events: visible;");
+      // customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: inline;");
+      // customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: inline;");
+      //For FF
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: inline;}",0); 
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: pointer; pointer-events: visible;}",0); 
+    }else{
+      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
+      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
+      // document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
+      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
+      //Custom
+      //customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display");
+      // customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: default; pointer-events: none;");
+      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "not-display");
+      // customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: none;");
+
+
+      //For FF
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: none;}",0); 
+      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: default; pointer-events: none;}",0); 
+    }
+
+
+  });
 
  function addEvent(e){
   var name = $("#name").val();
@@ -91,24 +151,21 @@ app.factory('DBFactory', function($rootScope) {
 
     var intEvnt = parseInt(idEvnt);
     db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
+    .then(refreshView)
     .then(function() { 
-      console.log('Note updated.'); 
-    })
-    .catch(function(err) { 
-    });
-    refreshView();
     $rootScope.$broadcast('valueChanged');
     $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
-
+}).catch(function(err) { 
+    })
   }else{
 
 
     db.events.add(
       { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
-      ).then(function() {
+      ).then(refreshView)
+      .then(function() {
         $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added! See your events in <a href='#views'>Calendar</a></div>");
-      })
-      .then(refreshView)
+      })      
       .catch(function(err) {
       });
 
@@ -177,8 +234,7 @@ app.factory('DBFactory', function($rootScope) {
 
   }
 
-  
-});
+    }
    function refreshView() {
     return db.events.toArray()
     .then(renderAllEvents);
@@ -190,69 +246,14 @@ app.factory('DBFactory', function($rootScope) {
     events.forEach(function(event) {
       html += todoToHtml(event);
     });
-    $(function () {
-
+  
       $("#list").html(html);
-
-    });
-    
-    console.log('In render');
+      start();
   }
 
   function todoToHtml(event) {
     return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
   }
-  $(function () {
-
-  
-
-   $('#toggle-event').change(function() {
-
-        //For css rules
-    var customCSSRule = function(style, element, rules){
-     if("addRule" in style) {
-        style.addRule(element, rules);
-     } else if("insertRule" in style) {
-        style.insertRule(element + "{" + rules + "}",0);
-     }
-  };
-
-
-    var status = $(this).prop('checked');
-    if(status === true){
-      //For IE
-      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
-      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
-      // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
-      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: inline;");
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: pointer; pointer-events: visible;");
-      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: inline;");
-      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: inline;");
-      //For FF
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: inline;}",0); 
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: pointer; pointer-events: visible;}",0); 
-    }else{
-      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
-      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
-      // document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
-      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
-      //Custom
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display: none;");
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: default; pointer-events: none;");
-      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: none;");
-      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: none;");
-
-
-      //For FF
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: none;}",0); 
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: default; pointer-events: none;}",0); 
-    }
-
-
-  });
-
- });
 
 
   function addHolidaysToDB(holidays){

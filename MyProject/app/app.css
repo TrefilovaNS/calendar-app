@@ -6,6 +6,12 @@ a:hover, a:focus {
   color: #f0ad4e;;
 }
 
+.display{
+  display:inline;
+}
+.not-display{
+  display:none;
+}
 .left{
   display: inline;
   float: left;
@@ -325,6 +331,7 @@ button:focus { outline:0 !important; }
 
 
 .flex-calendar .days .day.event:before {
+  display: inline;
   content: "";
   width: 6px;
   height: 6px;
@@ -333,10 +340,7 @@ button:focus { outline:0 !important; }
   position:absolute;
   bottom:10px;
   margin-left:-3px;
-}
 
-.flex-calendar .days .day.event.hidden:before {
- display: none;
 }
 
 .ui-timepicker-wrapper{
