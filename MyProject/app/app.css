@@ -331,7 +331,7 @@ button:focus { outline:0 !important; }
 
 
 .flex-calendar .days .day.event:before {
-  display: inline;
+ 
   content: "";
   width: 6px;
   height: 6px;

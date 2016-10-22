@@ -91,13 +91,18 @@ app.factory('DBFactory', function($rootScope) {
   $('#toggle-event').change(function() {
 
         //For css rules
-    var customCSSRule = function(style, element, cssclass){
+    var customCSSRule = function(style, element, property, value){
      if("addRule" in style) {
-        style.addRule(element, rules);
+        style.addRule(element, property + ": " + value);
      } else if("insertRule" in style) {
-      var element = element;
-      var cssclass = cssclass;
-        $(element).addClass(cssclass);
+        //style.insertRule(element + "{" + rules + "}",0);
+        var element = element;
+        var property = property;
+        var value = value;
+       // if(property === "display" && value === "none"){
+          $(element).css(property, value);  
+       // }
+        
      }
   };
 
@@ -109,10 +114,10 @@ app.factory('DBFactory', function($rootScope) {
       // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
       // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
       // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
-      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display");
-      // customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: pointer; pointer-events: visible;");
-      // customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display: inline;");
-      // customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: inline;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","inline");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor","pointer");
+      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display","inline");
+      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display","inline");
       //For FF
       // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: inline;}",0); 
       // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: pointer; pointer-events: visible;}",0); 
@@ -122,10 +127,10 @@ app.factory('DBFactory', function($rootScope) {
       // document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
       // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
       //Custom
-      //customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display");
-      // customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor: default; pointer-events: none;");
-      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "not-display");
-      // customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display: none;");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","none");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor","default");
+      customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display","none");
+      customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display","none");
 
 
       //For FF
