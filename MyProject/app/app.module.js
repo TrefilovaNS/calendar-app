@@ -22,7 +22,7 @@ app.factory('DBFactory', function($rootScope) {
   }
 
   if(!idbOK()){
-    return console.log("Not suported IndexedDB")
+    return alert("Not suported IndexedDB")
   }
 
   var db = new Dexie("dexie1");
@@ -61,10 +61,7 @@ app.factory('DBFactory', function($rootScope) {
 
    function start(){
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
-    
-
-
-    
+        
     $("#addEvent").on("click", addEvent);
     $('#clrAllInputs').on("click", clrAllInputs)
     $(document.body).on('click', '.dltBtn', dltEvent); 
@@ -79,23 +76,22 @@ app.factory('DBFactory', function($rootScope) {
       'format': 'yyyy-mm-dd',
       'autoclose': true
     });
- // var basicExampleEl = document.getElementById('datePicker');
- // var datepair = new Datepair(basicExampleEl);
- $('#datePicker').datepair();
- //toggle
+ 
+    $('#datePicker').datepair();
+    //Toggle button
 
- $('#toggle-event').bootstrapToggle();
- $('#toggle-notify').bootstrapToggle();
+   $('#toggle-event').bootstrapToggle();
+   $('#toggle-notify').bootstrapToggle();
 
 
- $('#toggle-event').change(function() {
+   $('#toggle-event').change(function() {
 
         //For css rules
         var customCSSRule = function(style, element, property, value){
          if("addRule" in style) {
           style.addRule(element, property + ": " + value);
         } else if("insertRule" in style) {
-          
+
           var element = element;
           var property = property;
           var value = value;
@@ -109,10 +105,10 @@ app.factory('DBFactory', function($rootScope) {
         }else{
           $(element).css(property, value);  
         }
-        
+
       }
     }
-    
+
     var status = $(this).prop('checked');
     if(status === true){
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","inline");
@@ -122,7 +118,7 @@ app.factory('DBFactory', function($rootScope) {
       //customCSSRule(document.styleSheets[0], ".time.eventTime .right", "pointer-events","visible");
       customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display","inline");
       //customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "pointer-events","visible");
-      
+
     }else{
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","none");
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor","default");
@@ -136,6 +132,7 @@ app.factory('DBFactory', function($rootScope) {
   });
 
  function addEvent(e){
+  //Get values
   var name = $("#name").val();
   var description = $("#description").val();
   var startDate = $("#startDate").val();
@@ -145,9 +142,10 @@ app.factory('DBFactory', function($rootScope) {
   var place = $("#place").val();
   var idEvnt = $("#idEvnt").text();
   
+  //If we have id of event
   if(idEvnt){
 
-
+    //Update it
     var intEvnt = parseInt(idEvnt);
     db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
     .then(refreshView)
@@ -157,7 +155,7 @@ app.factory('DBFactory', function($rootScope) {
     }).catch(function(err) { 
     })
   }else{
-
+    //If not - create event
 
     db.events.add(
       { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
@@ -188,8 +186,6 @@ function clrAllInputs(e){
   $("#for-date").text('');
   $("#placeForMessages").text('');
 
-
-
 }
 
 
@@ -209,7 +205,7 @@ function updEvent(e){
   e.preventDefault();
   var id = e.target.getAttribute('id');
   var intID = parseInt(id);
-
+  //Now show clicked event to update it
   db.events.get(intID).then(function(event) { 
     $("#name").val(event.name);
     $("#description").val(event.description);
@@ -224,16 +220,13 @@ function updEvent(e){
 
     $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left; padding-top: 7px;' id='idEvnt'>" + eventID + "</div>");
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Now you can edit this event!</div>");
-    console.log(event);
   }); 
 
   window.scrollTo(0, 0);
-
-
-
-}
+  }
 
 }
+
 function refreshView() {
   return db.events.toArray()
   .then(renderAllEvents);
@@ -254,7 +247,7 @@ function todoToHtml(event) {
   return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
 }
 
-
+//Method to add holidays in DB
 function addHolidaysToDB(holidays){
 
   var unformatHolidays = holidays;
@@ -278,7 +271,7 @@ function addHolidaysToDB(holidays){
 
   });
 }
-
+//Method to get all data from DB
 function getAllData(){
  var allData = [];
  db.events.each(function(event){
@@ -317,7 +310,7 @@ app.controller('TabController', function($scope){
 
 
 });
-
+//Get holidays from json
 app.factory('Holidays', function($http) {
 
  function getHolidays(year) {
@@ -334,11 +327,7 @@ app.factory('Holidays', function($http) {
    console.log("Denied: " + status);
  });
 
-
-
 };
-
-
 
 return {
 
@@ -346,28 +335,24 @@ return {
 };
 
 
-
 });
 
 
 app.controller('MainController', function($scope, DBFactory, Holidays, $http){
-// $scope.events = [{name: "hi", date:"2016-10-31 00:00", duration:"01:00"},
-// {name: "hi99", date:"2016-10-28 13:00", duration:"01:00"}];
-// console.log($scope.events);
-
-$scope.$on('valueChanged', function() {       
-  $scope.$apply(function() {
-    addEvents();
-    $scope.$broadcast('events');
+  //Main functions - get all data and send it to views
+  $scope.$on('valueChanged', function() {       
+    $scope.$apply(function() {
+      addEvents();
+      $scope.$broadcast('events');
+    });
   });
-});
 
-function addEvents(){
-  $scope.data = DBFactory.getAllData();
-  $scope.events = $scope.data;
+  function addEvents(){
+    $scope.data = DBFactory.getAllData();
+    $scope.events = $scope.data;
 
-}
-addEvents();
+  }
+  addEvents();
 
 
     //Holidays
@@ -394,10 +379,7 @@ addEvents();
 
 app.controller('NotifyController', function($scope, $timeout){
 
-
-
   $(function () {
-
       //For first init and if events changes
       $scope.$watch('events', function() {
         if($('#toggle-notify').prop('checked') === true){
@@ -406,8 +388,6 @@ app.controller('NotifyController', function($scope, $timeout){
        }
 
      });
-
-
        //For every true status - send notifications
        $('#toggle-notify').change(function() {
         var status = $('#toggle-notify').prop('checked');
@@ -429,9 +409,6 @@ app.controller('NotifyController', function($scope, $timeout){
    //Set notifications
    function notifyOn(name, description, date, place){
 
-     if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notification");
-    }
     Notification.requestPermission().then(function(result) {
       if (result === 'denied') {
         console.log('Permission wasn\'t granted. Allow a retry.');
@@ -455,11 +432,8 @@ app.controller('NotifyController', function($scope, $timeout){
 
   };
 
-  
-  
-
-       //Проверка на сегодняшний день
-       function checkToday(){
+    //Check for today 
+    function checkToday(){
         $timeout(function() {
          var currentFullDate = new Date();
          var currentYear = currentFullDate.getFullYear();
@@ -494,8 +468,8 @@ app.controller('NotifyController', function($scope, $timeout){
 
        }, 1000);
       }
-       //Для завтрашнего события
-       function checkTomorrow(){
+  //Check for tomorrow
+  function checkTomorrow(){
         $timeout(function() {
           var date  = moment(new Date()).add(1,'days');
           var tomorrow = date._d;

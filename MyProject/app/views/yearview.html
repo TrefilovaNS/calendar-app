@@ -1,50 +1,50 @@
 <div align="center" class="y-main" ng-controller="CommonYearController">
 
 
-<div class="flex-calendar" style="margin: auto;">
-      <div class="month">
-        <button class="reset" ng-click="resetToToday()">reset</button>
-        <div class="label">{{selectedYear}}</div>
-        <div class="arrow" ng-click="nextYear()"></div>
-      </div>
- </div>
- <br><br>
-<!-- Months -->
+  <div class="flex-calendar" style="margin: auto;">
+    <div class="month">
+      <button class="reset" ng-click="resetToToday()">reset</button>
+      <div class="label">{{selectedYear}}</div>
+      <div class="arrow" ng-click="nextYear()"></div>
+    </div>
+  </div>
+  <br><br>
+  <!-- Months -->
   <div ng-controller="MonthController">
    <div ng-include="'views/monthview-foryear.html'" ng-controller="JanController" class="y-month"> 
    </div>
-  </div>
-  <div ng-controller="MonthController">
+ </div>
+ <div ng-controller="MonthController">
    <div ng-include="'views/monthview-foryear.html'" ng-controller="FebController" class="y-month"> </div>
-   </div>
-  <div ng-controller="MonthController">
+ </div>
+ <div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="MarController" class="y-month"> </div>
-  </div>
-   <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="AprController" class="y-month"> </div>
-  </div>
-   <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="MayController" class="y-month"> </div>
-  </div>
-   <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="JunController" class="y-month"> </div>
-  </div>
-     <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="JulController" class="y-month"> </div>
-  </div>
-     <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="AugController" class="y-month"> </div>
-  </div>
-     <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="SepController" class="y-month"> </div>
-    </div>
-       <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="OctController" class="y-month"> </div>
-    </div>
-       <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="NovController" class="y-month"> </div>
-    </div>
-       <div ng-controller="MonthController">
+</div>
+<div ng-controller="MonthController">
   <div ng-include="'views/monthview-foryear.html'" ng-controller="DecController" class="y-month"> </div>
-  </div>
-    </div>
+</div>
+</div>

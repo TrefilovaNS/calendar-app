@@ -7,9 +7,6 @@ a:hover, a:focus {
 }
 
 
-.not-display{
-  display:none;
-}
 .left{
   display: inline;
   float: left;

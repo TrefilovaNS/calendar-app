@@ -1,7 +1,7 @@
 {
   "name": "calendar-app",
   "description": "A simple angular app",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/TrefilovaNS/calendar-app",
   "license": "MIT",
   "private": true,

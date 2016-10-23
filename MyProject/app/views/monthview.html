@@ -1,17 +1,17 @@
 <div align="center" ng-controller="MonthController">
-   <div class="flex-calendar">
-      <div class="month">
-        <button class="reset" ng-click="resetToToday()">reset</button>
-        <div class="label">{{ selectedMonth }} {{selectedYear}}</div>
-        <div class="arrow" ng-click="nextMonth()"></div>
-      </div>
-      <div class="week">
-        <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
-      </div>
-      <div class="days" ng-repeat="week in weeks">
-        <div class="day" ng-repeat="day in week track by $index" ng-class="{selected: isDefaultDate(day), event: day.event[0], out: !day}" ng-click="onClick(day, $index, $event)">
-          <div class="number">{{day.day}}</div>
-        </div>
-      </div>
+ <div class="flex-calendar">
+  <div class="month">
+    <button class="reset" ng-click="resetToToday()">reset</button>
+    <div class="label">{{ selectedMonth }} {{selectedYear}}</div>
+    <div class="arrow" ng-click="nextMonth()"></div>
+  </div>
+  <div class="week">
+    <div class="day" ng-repeat="day in weekDays() track by $index">{{ day }}</div>
+  </div>
+  <div class="days" ng-repeat="week in weeks">
+    <div class="day" ng-repeat="day in week track by $index" ng-class="{selected: isDefaultDate(day), event: day.event[0], out: !day}" ng-click="onClick(day, $index, $event)">
+      <div class="number">{{day.day}}</div>
     </div>
+  </div>
+</div>
 </div>
