@@ -6,9 +6,7 @@ a:hover, a:focus {
   color: #f0ad4e;;
 }
 
-.display{
-  display:inline;
-}
+
 .not-display{
   display:none;
 }
@@ -342,6 +340,15 @@ button:focus { outline:0 !important; }
   margin-left:-3px;
 
 }
+
+.hidden:before {
+  color: #fff;
+}
+ 
+.flex-calendar .days .day.event.display:before{
+  display:inline;
+}
+
 
 .ui-timepicker-wrapper{
   width: 11%;

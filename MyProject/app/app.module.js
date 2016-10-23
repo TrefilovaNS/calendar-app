@@ -56,10 +56,10 @@ app.factory('DBFactory', function($rootScope) {
 
     
 
-});
+  });
 
 
-  function start(){
+   function start(){
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
     
 
@@ -84,60 +84,54 @@ app.factory('DBFactory', function($rootScope) {
  $('#datePicker').datepair();
  //toggle
 
-  $('#toggle-event').bootstrapToggle();
-  $('#toggle-notify').bootstrapToggle();
+ $('#toggle-event').bootstrapToggle();
+ $('#toggle-notify').bootstrapToggle();
 
 
-  $('#toggle-event').change(function() {
+ $('#toggle-event').change(function() {
 
         //For css rules
-    var customCSSRule = function(style, element, property, value){
-     if("addRule" in style) {
-        style.addRule(element, property + ": " + value);
-     } else if("insertRule" in style) {
-        //style.insertRule(element + "{" + rules + "}",0);
-        var element = element;
-        var property = property;
-        var value = value;
-       // if(property === "display" && value === "none"){
+        var customCSSRule = function(style, element, property, value){
+         if("addRule" in style) {
+          style.addRule(element, property + ": " + value);
+        } else if("insertRule" in style) {
+          
+          var element = element;
+          var property = property;
+          var value = value;
+          if(element === ".flex-calendar .days .day.event:before"){
+            $('.flex-calendar .days .day.event').addClass('display');
+            if(value === "none") {
+            //$('.flex-calendar .days .day.event').addClass('hidden');
+            $('.flex-calendar .days .day.event').removeClass('display');
+            style.insertRule(element + "{" + property + ":" + value + "}",0);
+          }
+        }else{
           $(element).css(property, value);  
-       // }
+        }
         
-     }
-  };
-
-
+      }
+    }
+    
     var status = $(this).prop('checked');
     if(status === true){
-      //For IE
-      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: inline;');
-      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: pointer; pointer-events: visible;');
-      // document.styleSheets[0].addRule('.time.eventTime .right','display: inline;');
-      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: inline;');
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","inline");
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor","pointer");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "pointer-events","visible");
       customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display","inline");
+      //customCSSRule(document.styleSheets[0], ".time.eventTime .right", "pointer-events","visible");
       customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display","inline");
-      //For FF
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: inline;}",0); 
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: pointer; pointer-events: visible;}",0); 
+      //customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "pointer-events","visible");
+      
     }else{
-      // document.styleSheets[0].addRule('.flex-calendar .days .day.event:before','display: none;');
-      // document.styleSheets[0].addRule('.flex-calendar .days .day:not(.disabled):not(.out)','cursor: default; pointer-events: none;');
-      // document.styleSheets[0].addRule('.time.eventTime .right','display: none;');
-      // document.styleSheets[0].addRule('.v-right.week .day.color div div span:nth-child(2n)','display: none;');
-      //Custom
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event:before", "display","none");
       customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "cursor","default");
+      customCSSRule(document.styleSheets[0], ".flex-calendar .days .day.event", "pointer-events","none");
       customCSSRule(document.styleSheets[0], ".time.eventTime .right", "display","none");
+      //customCSSRule(document.styleSheets[0], ".time.eventTime .right", "pointer-events","none");
       customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "display","none");
-
-
-      //For FF
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day.event:before {display: none;}",0); 
-      // document.styleSheets[0].insertRule(".flex-calendar .days .day:not(.disabled):not(.out) {cursor: default; pointer-events: none;}",0); 
+      //customCSSRule(document.styleSheets[0], ".v-right.week .day.color div div span:nth-child(2n)", "pointer-events","none");
     }
-
 
   });
 
@@ -158,9 +152,9 @@ app.factory('DBFactory', function($rootScope) {
     db.events.put( { name: name, description: description, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime, place: place, id:intEvnt } )
     .then(refreshView)
     .then(function() { 
-    $rootScope.$broadcast('valueChanged');
-    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
-}).catch(function(err) { 
+      $rootScope.$broadcast('valueChanged');
+      $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully saved!</div>");
+    }).catch(function(err) { 
     })
   }else{
 
@@ -168,141 +162,141 @@ app.factory('DBFactory', function($rootScope) {
     db.events.add(
       { name: name, description: description, startDate: startDate, startTime:startTime, endDate: endDate, endTime:endTime, place: place}
       ).then(refreshView)
-      .then(function() {
-        $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added! See your events in <a href='#views'>Calendar</a></div>");
-      })      
-      .catch(function(err) {
-      });
+    .then(function() {
+      $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully added! See your events in <a href='#views'>Calendar</a></div>");
+    })      
+    .catch(function(err) {
+    });
 
-      clrAllInputs();
-      $rootScope.$broadcast('valueChanged');
-
-    }
-
-
-
-  }
-
-  function clrAllInputs(e){
-    $("#name").val('');
-    $("#description").val('');
-    $("#startDate").val('');
-    $("#startTime").val('');
-    $("#endDate").val('');
-    $("#endTime").val('');
-    $("#place").val('');
-    $("#for-date").text('');
-    $("#placeForMessages").text('');
-
-
-
-  }
-
-
-
-  function dltEvent(e) {
-    e.preventDefault();
-    var id = e.target.getAttribute('id');
-    var intID = parseInt(id);
-    db.events.delete(intID).then(refreshView);
+    clrAllInputs();
     $rootScope.$broadcast('valueChanged');
 
   }
 
 
-  function updEvent(e){
 
-    e.preventDefault();
-    var id = e.target.getAttribute('id');
-    var intID = parseInt(id);
+}
 
-    db.events.get(intID).then(function(event) { 
-      $("#name").val(event.name);
-      $("#description").val(event.description);
-      $("#startDate").val(event.startDate);
-      $("#startTime").val(event.startTime);
-      $("#endDate").val(event.endDate);
-      $("#endTime").val(event.endTime);
-      $("#place").val(event.place);
-
-
-      var eventID = event.id;
-
-      $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left; padding-top: 7px;' id='idEvnt'>" + eventID + "</div>");
-      $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Now you can edit this event!</div>");
-      console.log(event);
-    }); 
-
-    window.scrollTo(0, 0);
+function clrAllInputs(e){
+  $("#name").val('');
+  $("#description").val('');
+  $("#startDate").val('');
+  $("#startTime").val('');
+  $("#endDate").val('');
+  $("#endTime").val('');
+  $("#place").val('');
+  $("#for-date").text('');
+  $("#placeForMessages").text('');
 
 
 
-  }
-
-    }
-   function refreshView() {
-    return db.events.toArray()
-    .then(renderAllEvents);
-
-  }
-
-  function renderAllEvents(events) {
-    var html = '';
-    events.forEach(function(event) {
-      html += todoToHtml(event);
-    });
-  
-      $("#list").html(html);
-      start();
-  }
-
-  function todoToHtml(event) {
-    return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
-  }
+}
 
 
-  function addHolidaysToDB(holidays){
 
-    var unformatHolidays = holidays;
-    unformatHolidays.forEach(function(holiday) {
-      return db.events.add(
-        { name: holiday.englishName, 
-          description: "Holiday", 
-          startDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
-          startTime: "00:00", 
-          endDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
-          endTime: "23:59", 
-          place: ""}
-          ).then(refreshView)
-      .then(function() {
-        $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your holidays successfully added! See your events in <a href='#views'>Calendar</a></div>");
-        $rootScope.$broadcast('valueChanged');
-      })      
-      .catch(function(err) {
-      });
+function dltEvent(e) {
+  e.preventDefault();
+  var id = e.target.getAttribute('id');
+  var intID = parseInt(id);
+  db.events.delete(intID).then(refreshView);
+  $rootScope.$broadcast('valueChanged');
+
+}
 
 
-    });
-  }
+function updEvent(e){
 
-  function getAllData(){
-   var allData = [];
-   db.events.each(function(event){
-    var obj = {};
-    obj.name = event.name;
-    obj.description = event.description;
-    obj.place = event.place;
-    var startDate = event.startDate + ' ' + event.startTime;
-    obj.date = startDate;
-    var endDate = event.endDate + ' ' + event.endTime;
-    obj.duration = moment.utc(moment(endDate,"YYYY-MM-DD HH:mm").diff(moment(startDate,"YYYY-MM-DD HH:mm"))).format("HH:mm")
+  e.preventDefault();
+  var id = e.target.getAttribute('id');
+  var intID = parseInt(id);
+
+  db.events.get(intID).then(function(event) { 
+    $("#name").val(event.name);
+    $("#description").val(event.description);
+    $("#startDate").val(event.startDate);
+    $("#startTime").val(event.startTime);
+    $("#endDate").val(event.endDate);
+    $("#endTime").val(event.endTime);
+    $("#place").val(event.place);
 
 
-    allData.push(obj);
+    var eventID = event.id;
+
+    $("#for-date").html("<label class='col-sm-2 control-label'>#:</label> " + "<div class='col-sm-10' style='height:34px; text-align:left; padding-top: 7px;' id='idEvnt'>" + eventID + "</div>");
+    $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Now you can edit this event!</div>");
+    console.log(event);
+  }); 
+
+  window.scrollTo(0, 0);
+
+
+
+}
+
+}
+function refreshView() {
+  return db.events.toArray()
+  .then(renderAllEvents);
+
+}
+
+function renderAllEvents(events) {
+  var html = '';
+  events.forEach(function(event) {
+    html += todoToHtml(event);
   });
-   return allData;
- }
- return {
+  
+  $("#list").html(html);
+  start();
+}
+
+function todoToHtml(event) {
+  return '<tr><td>'+event.id +'</td><td>'+event.name+'</td><td>'+event.description+'</td><td><div class="btn-group" role="group"><button class="btn btn-default dltBtn" id="'+event.id+'">delete</button><button class="btn btn-default updBtn" id="'+event.id+'">update</button></div></td></tr>';
+}
+
+
+function addHolidaysToDB(holidays){
+
+  var unformatHolidays = holidays;
+  unformatHolidays.forEach(function(holiday) {
+    return db.events.add(
+      { name: holiday.englishName, 
+        description: "Holiday", 
+        startDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
+        startTime: "00:00", 
+        endDate: holiday.date.year + "-" + holiday.date.month + "-" + holiday.date.day, 
+        endTime: "23:59", 
+        place: ""}
+        ).then(refreshView)
+    .then(function() {
+      $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your holidays successfully added! See your events in <a href='#views'>Calendar</a></div>");
+      $rootScope.$broadcast('valueChanged');
+    })      
+    .catch(function(err) {
+    });
+
+
+  });
+}
+
+function getAllData(){
+ var allData = [];
+ db.events.each(function(event){
+  var obj = {};
+  obj.name = event.name;
+  obj.description = event.description;
+  obj.place = event.place;
+  var startDate = event.startDate + ' ' + event.startTime;
+  obj.date = startDate;
+  var endDate = event.endDate + ' ' + event.endTime;
+  obj.duration = moment.utc(moment(endDate,"YYYY-MM-DD HH:mm").diff(moment(startDate,"YYYY-MM-DD HH:mm"))).format("HH:mm")
+
+
+  allData.push(obj);
+});
+ return allData;
+}
+return {
   addHolidaysToDB: addHolidaysToDB,
   getAllData: getAllData
 };
@@ -361,19 +355,19 @@ app.controller('MainController', function($scope, DBFactory, Holidays, $http){
 // {name: "hi99", date:"2016-10-28 13:00", duration:"01:00"}];
 // console.log($scope.events);
 
-  $scope.$on('valueChanged', function() {       
-    $scope.$apply(function() {
-      addEvents();
-      $scope.$broadcast('events');
-    });
+$scope.$on('valueChanged', function() {       
+  $scope.$apply(function() {
+    addEvents();
+    $scope.$broadcast('events');
   });
+});
 
 function addEvents(){
   $scope.data = DBFactory.getAllData();
   $scope.events = $scope.data;
 
 }
-  addEvents();
+addEvents();
 
 
     //Holidays
@@ -419,11 +413,11 @@ app.controller('NotifyController', function($scope, $timeout){
         var status = $('#toggle-notify').prop('checked');
         if(status === true){
           if (!("Notification" in window)) {
-          alert("This browser does not support desktop notification");
-        }else{
-          checkToday();
-          checkTomorrow();
-        }
+            alert("This browser does not support desktop notification");
+          }else{
+            checkToday();
+            checkTomorrow();
+          }
           
 
         }
