@@ -13,7 +13,6 @@ app.config(function($routeProvider) {
   })
   .otherwise('/events');
 });
-
 app.factory('DBFactory', function($rootScope) {
 
 
@@ -63,6 +62,7 @@ app.factory('DBFactory', function($rootScope) {
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
         
     $("#addEvent").on("click", addEvent);
+    $("#deleteAll").on("click", deleteAll);
     $('#clrAllInputs').on("click", clrAllInputs)
     $(document.body).on('click', '.dltBtn', dltEvent); 
     $(document.body).on('click', '.updBtn', updEvent); 
@@ -131,6 +131,7 @@ app.factory('DBFactory', function($rootScope) {
 
   });
 
+
  function addEvent(e){
   //Get values
   var name = $("#name").val();
@@ -194,10 +195,25 @@ function dltEvent(e) {
   e.preventDefault();
   var id = e.target.getAttribute('id');
   var intID = parseInt(id);
-  db.events.delete(intID).then(refreshView);
-  $rootScope.$broadcast('valueChanged');
+  db.events.delete(intID).then(refreshView)
+  .then(function(){
+    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully deleted</div>");
+  
+    });
+  $rootScope.$broadcast('valueChanged');    
 
 }
+
+function deleteAll(e){
+      
+    db.events.clear().then(refreshView)
+    .then(function(){
+    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>All event successfully deleted</div>");
+  
+    });
+
+    $rootScope.$broadcast('valueChanged');   
+   }
 
 
 function updEvent(e){
