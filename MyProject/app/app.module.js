@@ -13,7 +13,6 @@ app.config(function($routeProvider) {
   })
   .otherwise('/events');
 });
-
 app.factory('DBFactory', function($rootScope) {
 
 
@@ -49,23 +48,25 @@ app.factory('DBFactory', function($rootScope) {
         localStorage.setItem("justOnce", "true");
         window.location.reload();
       }
+
+      $(document.body).on('click', '#addEvent', addEvent);
+      $(document.body).on('click', '#deleteAll', deleteAll);
+      $(document.body).on('click', '#clrAllInputs', clrAllInputs);
+      $(document.body).on('click', '.dltBtn', dltEvent); 
+      $(document.body).on('click', '.updBtn', updEvent); 
+
     }
     window.onload();
 
     refreshView();
 
-    
+
 
   });
 
 
    function start(){
     $("#placeForMessages").html("<div class='alert alert-warning' role='alert'>Welcome to Calendar App! Now you can add some events to this application!</div>");
-        
-    $("#addEvent").on("click", addEvent);
-    $('#clrAllInputs').on("click", clrAllInputs)
-    $(document.body).on('click', '.dltBtn', dltEvent); 
-    $(document.body).on('click', '.updBtn', updEvent); 
 
     $('#datePicker .time').timepicker({
       'showDuration': true,
@@ -76,15 +77,15 @@ app.factory('DBFactory', function($rootScope) {
       'format': 'yyyy-mm-dd',
       'autoclose': true
     });
- 
+
     $('#datePicker').datepair();
     //Toggle button
 
-   $('#toggle-event').bootstrapToggle();
-   $('#toggle-notify').bootstrapToggle();
+    $('#toggle-event').bootstrapToggle();
+    $('#toggle-notify').bootstrapToggle();
 
 
-   $('#toggle-event').change(function() {
+    $('#toggle-event').change(function() {
 
         //For css rules
         var customCSSRule = function(style, element, property, value){
@@ -131,7 +132,11 @@ app.factory('DBFactory', function($rootScope) {
 
   });
 
- function addEvent(e){
+
+  }
+
+
+  function addEvent(e){
   //Get values
   var name = $("#name").val();
   var description = $("#description").val();
@@ -194,9 +199,24 @@ function dltEvent(e) {
   e.preventDefault();
   var id = e.target.getAttribute('id');
   var intID = parseInt(id);
-  db.events.delete(intID).then(refreshView);
-  $rootScope.$broadcast('valueChanged');
+  db.events.delete(intID).then(refreshView)
+  .then(function(){
+    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>Your event successfully deleted</div>");
 
+  });
+  $rootScope.$broadcast('valueChanged');    
+
+}
+
+function deleteAll(e){
+
+  db.events.clear().then(refreshView)
+  .then(function(){
+    $("#placeForMessages").html("<div class='alert alert-success' role='alert'>All event successfully deleted</div>");
+
+  });
+
+  $rootScope.$broadcast('valueChanged');   
 }
 
 
@@ -223,9 +243,8 @@ function updEvent(e){
   }); 
 
   window.scrollTo(0, 0);
-  }
-
 }
+
 
 function refreshView() {
   return db.events.toArray()
@@ -434,75 +453,75 @@ app.controller('NotifyController', function($scope, $timeout){
 
     //Check for today 
     function checkToday(){
-        $timeout(function() {
-         var currentFullDate = new Date();
-         var currentYear = currentFullDate.getFullYear();
-         var currentMonth = currentFullDate.getMonth() + 1;
-         var currentDay = currentFullDate.getDate();
-         var currentHour = currentFullDate.getHours();
-         var currentMinutes = currentFullDate.getMinutes();
-         
-         var events = $scope.events;
-         var result = events.map(function(a) {
+      $timeout(function() {
+       var currentFullDate = new Date();
+       var currentYear = currentFullDate.getFullYear();
+       var currentMonth = currentFullDate.getMonth() + 1;
+       var currentDay = currentFullDate.getDate();
+       var currentHour = currentFullDate.getHours();
+       var currentMinutes = currentFullDate.getMinutes();
 
-          var date = new Date(a.date);
-          var dYear = date.getFullYear();
-          var dMonth = date.getMonth() + 1;
-          var dDay = date.getDate();
-          var dHour = date.getHours();
-          var dMinutes = date.getMinutes();
+       var events = $scope.events;
+       var result = events.map(function(a) {
 
-          if(dYear == currentYear 
-            && currentMonth == dMonth 
-            && currentDay == dDay){
-            if(!(currentHour < dHour)){
-              if(currentHour == dHour && currentMinutes > dMinutes){}
-            }else{
-              var name = "Today " + a.name;
-              notifyOn(name, a.description, a.date, a.place);
-            }
-            
-          }
-          
-        });
+        var date = new Date(a.date);
+        var dYear = date.getFullYear();
+        var dMonth = date.getMonth() + 1;
+        var dDay = date.getDate();
+        var dHour = date.getHours();
+        var dMinutes = date.getMinutes();
 
-       }, 1000);
-      }
-  //Check for tomorrow
-  function checkTomorrow(){
-        $timeout(function() {
-          var date  = moment(new Date()).add(1,'days');
-          var tomorrow = date._d;
-          tomorrow.setHours(0,0,0);
-          
-          var tomYear = tomorrow.getFullYear();
-          var tomMonth = tomorrow.getMonth() + 1;
-          var tomDay = tomorrow.getDate();
-          var tomHour = tomorrow.getHours();
-
-
-          var events = $scope.events;
-          var result = events.map(function(a) {
-
-            var date = new Date(a.date);
-            var dYear = date.getFullYear();
-            var dMonth = date.getMonth() + 1;
-            var dDay = date.getDate();
-            var dHour = date.getHours();
-
-            if(dYear == tomYear 
-              && tomMonth == dMonth 
-              && tomDay == dDay){
-              var name = "Tomorrow " + a.name;
+        if(dYear == currentYear 
+          && currentMonth == dMonth 
+          && currentDay == dDay){
+          if(!(currentHour < dHour)){
+            if(currentHour == dHour && currentMinutes > dMinutes){}
+          }else{
+            var name = "Today " + a.name;
             notifyOn(name, a.description, a.date, a.place);
           }
-          
-        });
 
-        }, 1000);
+        }
+
+      });
+
+     }, 1000);
+    }
+  //Check for tomorrow
+  function checkTomorrow(){
+    $timeout(function() {
+      var date  = moment(new Date()).add(1,'days');
+      var tomorrow = date._d;
+      tomorrow.setHours(0,0,0);
+
+      var tomYear = tomorrow.getFullYear();
+      var tomMonth = tomorrow.getMonth() + 1;
+      var tomDay = tomorrow.getDate();
+      var tomHour = tomorrow.getHours();
+
+
+      var events = $scope.events;
+      var result = events.map(function(a) {
+
+        var date = new Date(a.date);
+        var dYear = date.getFullYear();
+        var dMonth = date.getMonth() + 1;
+        var dDay = date.getDate();
+        var dHour = date.getHours();
+
+        if(dYear == tomYear 
+          && tomMonth == dMonth 
+          && tomDay == dDay){
+          var name = "Tomorrow " + a.name;
+        notifyOn(name, a.description, a.date, a.place);
       }
-      
-
-
 
     });
+
+    }, 1000);
+  }
+
+
+
+
+});
