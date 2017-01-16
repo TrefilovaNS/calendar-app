@@ -3,55 +3,68 @@
 // Angular E2E Testing Guide:
 // https://docs.angularjs.org/guide/e2e-testing
 
-describe('PhoneCat Application', function() {
+describe('Calendar Application', function() {
+  describe('calendarApp', function() {
 
-  describe('phoneList', function() {
+    //  beforeEach(function() {
+    //   browser.get('index.html');
+    // });
+ it('should have a right url', function() {
+     expect(browser().location().href()).toEqual('http://localhost:8000/#/events')
+ });
+    // it('should have a title', function() {
+    // browser.get('http://localhost:8000/#/events');
 
-    beforeEach(function() {
-      browser.get('index.html');
-    });
+    // expect(browser.getTitle()).toEqual('Calendar App');
+    //   });
 
-    it('should filter the phone list as a user types into the search box', function() {
-      var phoneList = element.all(by.repeater('phone in $ctrl.phones'));
-      var query = element(by.model('$ctrl.query'));
+    // beforeEach(module('calendarApp'));
 
-      expect(phoneList.count()).toBe(20);
+    // beforeEach(function() {
+    //   browser.get('index.html');
+    // });
 
-      query.sendKeys('nexus');
-      expect(phoneList.count()).toBe(1);
+    // it('should filter the phone list as a user types into the search box', function() {
+    //   var phoneList = element.all(by.repeater('phone in $ctrl.phones'));
+    //   var query = element(by.model('$ctrl.query'));
 
-      query.clear();
-      query.sendKeys('motorola');
-      expect(phoneList.count()).toBe(8);
-    });
+    //   expect(phoneList.count()).toBe(20);
 
-    it('should be possible to control phone order via the drop-down menu', function() {
-      var queryField = element(by.model('$ctrl.query'));
-      var orderSelect = element(by.model('$ctrl.orderProp'));
-      var nameOption = orderSelect.element(by.css('option[value="name"]'));
-      var phoneNameColumn = element.all(by.repeater('phone in $ctrl.phones').column('phone.name'));
+    //   query.sendKeys('nexus');
+    //   expect(phoneList.count()).toBe(1);
 
-      function getNames() {
-        return phoneNameColumn.map(function(elem) {
-          return elem.getText();
-        });
-      }
+    //   query.clear();
+    //   query.sendKeys('motorola');
+    //   expect(phoneList.count()).toBe(8);
+    // });
 
-      queryField.sendKeys('tablet');   // Let's narrow the dataset to make the assertions shorter
+    // it('should be possible to control phone order via the drop-down menu', function() {
+    //   var queryField = element(by.model('$ctrl.query'));
+    //   var orderSelect = element(by.model('$ctrl.orderProp'));
+    //   var nameOption = orderSelect.element(by.css('option[value="name"]'));
+    //   var phoneNameColumn = element.all(by.repeater('phone in $ctrl.phones').column('phone.name'));
 
-      expect(getNames()).toEqual([
-        'Motorola XOOM\u2122 with Wi-Fi',
-        'MOTOROLA XOOM\u2122'
-      ]);
+    //   function getNames() {
+    //     return phoneNameColumn.map(function(elem) {
+    //       return elem.getText();
+    //     });
+    //   }
 
-      nameOption.click();
+    //   queryField.sendKeys('tablet');   // Let's narrow the dataset to make the assertions shorter
 
-      expect(getNames()).toEqual([
-        'MOTOROLA XOOM\u2122',
-        'Motorola XOOM\u2122 with Wi-Fi'
-      ]);
-    });
+    //   expect(getNames()).toEqual([
+    //     'Motorola XOOM\u2122 with Wi-Fi',
+    //     'MOTOROLA XOOM\u2122'
+    //   ]);
 
+    //   nameOption.click();
+
+    //   expect(getNames()).toEqual([
+    //     'MOTOROLA XOOM\u2122',
+    //     'Motorola XOOM\u2122 with Wi-Fi'
+    //   ]);
+    // });
+  });
   });
 
-});
+
