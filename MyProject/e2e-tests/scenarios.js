@@ -6,9 +6,11 @@
 describe('Calendar Application', function() {
   describe('calendarApp', function() {
 
-    //  beforeEach(function() {
-    //   browser.get('index.html');
-    // });
+     beforeEach(function() {
+      browser.get('index.html');
+    });
+    // beforeEach(module('calendarApp'));
+    
  it('should have a right title', function() {
      // expect(browser().location().href()).toEqual('http://localhost:8000/#/events')
     expect(browser.getTitle()).toEqual('Calendar App');
@@ -19,7 +21,7 @@ describe('Calendar Application', function() {
     
     //   });
 
-    // beforeEach(module('calendarApp'));
+    
 
     // beforeEach(function() {
     //   browser.get('index.html');
