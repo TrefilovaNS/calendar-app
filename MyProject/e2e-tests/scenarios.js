@@ -9,13 +9,14 @@ describe('Calendar Application', function() {
     //  beforeEach(function() {
     //   browser.get('index.html');
     // });
- it('should have a right url', function() {
-     expect(browser().location().href()).toEqual('http://localhost:8000/#/events')
+ it('should have a right title', function() {
+     // expect(browser().location().href()).toEqual('http://localhost:8000/#/events')
+    expect(browser.getTitle()).toEqual('Calendar App');
  });
     // it('should have a title', function() {
     // browser.get('http://localhost:8000/#/events');
 
-    // expect(browser.getTitle()).toEqual('Calendar App');
+    
     //   });
 
     // beforeEach(module('calendarApp'));
