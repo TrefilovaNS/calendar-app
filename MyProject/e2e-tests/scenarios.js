@@ -11,10 +11,12 @@ describe('Calendar Application', function() {
     });
     // beforeEach(module('calendarApp'));
     
- it('should have a right title', function() {
+ it('should have a right title and text', function() {
      // expect(browser().location().href()).toEqual('http://localhost:8000/#/events')
     expect(browser.getTitle()).toEqual('Calendar App');
+    expect(element(by.css('.navbar-brand')).getText()).toEqual('Calendar App');
  });
+
     // it('should have a title', function() {
     // browser.get('http://localhost:8000/#/events');
 
