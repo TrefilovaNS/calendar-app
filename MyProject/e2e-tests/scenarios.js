@@ -18,18 +18,14 @@ describe('Calendar Application', function() {
     expect(element(by.css('.navbar-brand')).getText()).toEqual('Calendar App');
  });
 
-it('should click on Views and then Month', function() {
-    var openViews = browser.findElement(By.xpath("//a[@href='#views']"));
-    openViews.click();
+// it('should click on Views and then Month', function() {
+//     var openViews = browser.findElement(By.xpath("//a[@href='#views']"));
+//     openViews.click();
 
-    var tabs = element.all(by.css('.nav-tabs li'));
-    tabs.get(2).click();
+//     var tabs = element.all(by.css('.nav-tabs li'));
+//     tabs.get(2).click();
 
-    // var next = element(by.css('.month div.arrow'));
-    // var EC = protractor.ExpectedConditions;
-    // browser.wait(EC.visibilityOf(next), 5000);
-    // next.click();
- });
+//     });
 
 it('should click on date picker', function() {
   var startDate = browser.findElement(By.id("startDate"));
@@ -44,7 +40,7 @@ it('should click on date picker', function() {
     // /html/body/div[3]/div[1]/table/tbody/tr[2]/td[3]
  });
 
-it('should click on name and type smth, save and check', function() {
+it('should click on name and type smth, add and check, update and check, delete and check', function() {
   var name = browser.findElement(By.id("name"));
   var description = browser.findElement(By.id("description"));
   var startDate = browser.findElement(By.id("startDate"));
@@ -61,10 +57,61 @@ it('should click on name and type smth, save and check', function() {
   endTime.sendKeys("18:00");
   endDate.sendKeys("07-02-2017");
   place.sendKeys("Home");
-    add.click();
- var findNameInList = browser.findElement(By.xpath("//*[@id='list']/tr/td[2]"));
+  add.click(); 
+  // var eventInList = browser.findElement(By.xpath("//*[@id='list']/tr/td[2]"));
+  // expect(eventInList.getText()).toEqual('Events');
+
+ var btnUpd = browser.findElement(By.xpath("//button[text()='update']"));
+ btnUpd.click();
+ name.sendKeys(" Updated");
+ place.sendKeys(" Updated");
+ add.click();
+ var updEventInList = browser.findElement(By.xpath("//*[@id='list']/tr/td[2]"));
+ expect(updEventInList.getText()).toEqual('Events Updated');
+
+//  var btnDlt = browser.findElement(By.xpath("//button[text()='delete']"));
+//  btnDlt.click();
+//  // if (browser.findElement(By.xpath("//*[@id='list']")).size == 0){
+
+//  // }
+
+
+});
+
+
+
+// it('should check added event in Year view', function() {
  
- });
+//     var openViews = browser.findElement(By.xpath("//a[@href='#views']"));
+//     openViews.click();
+
+//     var tabs = element.all(by.css('.nav-tabs li'));
+//     tabs.get(2).click();
+
+//     // var arrow = element(By.css('arrow'));
+//     // arrow.click();
+
+//  });
+
+// it('should update name and place of event', function() {
+    
+//     var btnUpd = browser.findElement(By.xpath("//button[text()='update']"));
+//     btnUpd.click();
+//     var name = browser.findElement(By.id("name"));
+//     //var valueOfName = name.getAttribute('value');
+//     expect(name.getText()).toEqual('Event');
+
+
+//  });
+
+ // expect(element.all(by.model('events')).count()).toEqual(1);
+
+
+    // var circle = browser.findElement(By.xpath("/html/body/div[1]/div[2]/section/div[1]/div/div[3]/div/div/div/div[4]/div[2]"));
+    // circle.click();
+
+    // expect(element(by.xpath('//h2')).getText()).toEqual('Event');
+
 
 // it('should click on Month', function() {
 //     // var openMonth = browser.findElement(By.xpath("//a[@ng-click='tab.setTab(2)']"));
